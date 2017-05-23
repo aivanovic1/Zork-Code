@@ -3,22 +3,34 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainStoryController">
    <center>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0">
          <children>
-            <ImageView fitHeight="278.0" fitWidth="801.0" pickOnBounds="true" preserveRatio="true" />
+            <StackPane>
+               <children>
+                  <ImageView fitHeight="278.0" fitWidth="702.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../background/Sample%20Interior.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
             <TextArea prefHeight="181.0" prefWidth="800.0" />
-            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="90.0" text="Button">
+            <StackPane>
                <VBox.margin>
                   <Insets top="2.0" />
                </VBox.margin>
-            </Button>
+               <children>
+                  <Button fx:id="okButton" alignment="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="90.0" text="OK" />
+               </children>
+            </StackPane>
          </children>
       </VBox>
    </center>

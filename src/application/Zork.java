@@ -24,9 +24,9 @@ import javafx.stage.Stage;
  */
 public class Zork extends Application {
 
-	private Stage primaryStage;
     private BorderPane mainWindow;
 
+    protected static Stage primaryStage = null;
     protected static Player player = null;
     protected static Map<String, Room> roomsMap = null;
 
@@ -34,8 +34,8 @@ public class Zork extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Zork");
+    	Zork.primaryStage = primaryStage;
+    	Zork.primaryStage.setTitle("Zork");
 
         // loading graphics
         this.showLoadingScreen();
@@ -79,15 +79,15 @@ public class Zork extends Application {
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(mainWindow);
-            primaryStage.setScene(scene);
-            this.primaryStage.setResizable(true);
-            this.primaryStage.sizeToScene();
-            primaryStage.show();
+            Zork.primaryStage.setScene(scene);
+            Zork.primaryStage.setResizable(true);
+            Zork.primaryStage.sizeToScene();
+            Zork.primaryStage.show();
 
             // center the screen
             Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-            this.primaryStage.setX((primScreenBounds.getWidth() - this.primaryStage.getWidth()) / 2);
-            this.primaryStage.setY((primScreenBounds.getHeight() - this.primaryStage.getHeight()) / 2);
+            Zork.primaryStage.setX((primScreenBounds.getWidth() - Zork.primaryStage.getWidth()) / 2);
+            Zork.primaryStage.setY((primScreenBounds.getHeight() - Zork.primaryStage.getHeight()) / 2);
 
         } catch (IOException e) {
             e.printStackTrace();

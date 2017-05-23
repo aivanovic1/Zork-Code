@@ -34,10 +34,10 @@ public class ExoticMeleeWeapon extends Item {
 
 	public String toString() {
 		return String.format("ExoticMeleeWeapon - %s, weight: %s, ability: %s, power: %d",
-				super.getName(), super.getWeight(), this.ability, this.power);
+				super.getName(), super.getWeight(), this.ability.toString(), this.power);
 	}
 
-	private WeaponAbilityType ability;
 	private int power = 0;
+	private WeaponAbilityType ability = WeaponAbilityType.WEAPON_ABILITY_NONE;
 
 }//end ExoticMeleeWeapon

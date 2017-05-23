@@ -15,8 +15,8 @@
 [DONE] Check
 [DONE] Take (take all, take + String)
 
-- fix inventory and capacity
-- fix ability in all toString methods for items
+[DONE] fix inventory and capacity
+[DONE] fix ability in all toString methods for items
 - Opening Story
 - Story for Rooms
 - Inventory Panel

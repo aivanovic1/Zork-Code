@@ -14,7 +14,8 @@ public class Player {
 	public Player(int health, int capacity) {
 		this.health = health;
 		this.capacity = capacity;
-		this.playerInventory = new Inventory();
+
+		this.playerInventory = new Inventory(this.capacity);
 	}
 	/**
 	 * @return the health

@@ -12,16 +12,14 @@ import java.util.List;
  */
 public class Inventory {
 
-	/**
-	 * C-tor
-	 */
-	public Inventory(){
+	public Inventory(int maxCapacity){
+		this.maxCapacityAllowed = maxCapacity;
 		inventory = new ArrayList<Item>(); //construct the object
 	}
 
 	//how to add an item to a inventory
 	public int addItem(Item item){
-		if ((weight + item.getWeight())<MAXVALUE){ //IT IS A + NOT A "+="
+		if ((weight + item.getWeight()) < this.maxCapacityAllowed){ //IT IS A + NOT A "+="
 			inventory.add(item);
 			weight += item.getWeight();
 			return 0;
@@ -30,7 +28,7 @@ public class Inventory {
 		}
 	}
 	public boolean canIAdd(Item item) {
-		if ((weight + item.getWeight())<MAXVALUE){ //IT IS A + NOT A "+="
+		if ((weight + item.getWeight()) < this.maxCapacityAllowed){ //IT IS A + NOT A "+="
 			return true;
 		}else{
 			return false;
@@ -44,7 +42,7 @@ public class Inventory {
 	}
 
 	//the weight that you currently are carrying
-	public int getWeight(){
+	public int getTotalInventoryWeight(){
 		return weight;
 	}
 
@@ -70,8 +68,8 @@ public class Inventory {
 	}
 
 	//get the max weight you can carry
-	public int getCapacity(){
-		return MAXVALUE;
+	public int getMaxCapacityAllowed(){
+		return this.maxCapacityAllowed;
 	}
 
 	// ------------- private fields
@@ -81,6 +79,6 @@ public class Inventory {
 	private int weight = 0;
 	private int currentIndex;
 
-	private final int MAXVALUE = 25; // the max weight a character can take
+	private final int maxCapacityAllowed; // the max weight a character can take
 
 } // end Inventory

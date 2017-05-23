@@ -56,13 +56,14 @@ public class ExoticWeapon extends Item {
 
 	public String toString() {
 		return String.format("ExoticWeapon - %s, weight: %s, ability: %s, power: %d, accuracy: %d, ammo: %d, ammUsage: %d",
-				super.getName(), super.getWeight(), this.ability, this.power, this.accuracy, this.ammo, this.ammoUsage);
+				super.getName(), super.getWeight(), this.ability.toString(), this.power, this.accuracy, this.ammo, this.ammoUsage);
 	}
 
-	private WeaponAbilityType ability;
 	private int power = 0;
 	private int accuracy = 0;
 	private int ammo = 0;
 	private int ammoUsage = 0;
+
+	private WeaponAbilityType ability = WeaponAbilityType.WEAPON_ABILITY_NONE;
 
 } //end ExoticWeapon

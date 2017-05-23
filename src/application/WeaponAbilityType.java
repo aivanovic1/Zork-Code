@@ -20,8 +20,7 @@ public enum WeaponAbilityType {
 	WEAPON_ABILITY_SCALE;
 
 	public String toString() {
-		return "";
-		//TODO
+		return WeaponAbilityType.abilityTypeToString(this);
 	}
 
 	public static String abilityTypeToString(WeaponAbilityType type) {

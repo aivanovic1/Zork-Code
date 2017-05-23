@@ -30,16 +30,21 @@ public class Zork extends Application {
     protected static Player player = null;
     protected static Map<String, Room> roomsMap = null;
 
+    // start() is the main method when running Java FX applications
+
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Zork");
 
+        // loading graphics
         this.showLoadingScreen();
 
+        // parse the game map and definitions for Player, Rooms, Inventory and much more ...
         RoomsAndMapParser roomParser = new RoomsAndMapParser("./src/application/RoomLayout.dat");
         this.roomsMap = roomParser.loadMap();
 
+        // remember the Player object
         Zork.player = roomParser.getPlayer();
 
         // FOR TESTING ONLY
@@ -53,10 +58,11 @@ public class Zork extends Application {
 //        r.print();
 
         try {
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 		}
 
+        // load the main Game screen
         this.initRootLayout();
     }
 
@@ -64,7 +70,8 @@ public class Zork extends Application {
      * Initializes the root layout.
      */
     public void initRootLayout() {
-        try {
+
+    	try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Zork.class.getResource("MainWindow.fxml"));
@@ -77,6 +84,7 @@ public class Zork extends Application {
             this.primaryStage.sizeToScene();
             primaryStage.show();
 
+            // center the screen
             Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
             this.primaryStage.setX((primScreenBounds.getWidth() - this.primaryStage.getWidth()) / 2);
             this.primaryStage.setY((primScreenBounds.getHeight() - this.primaryStage.getHeight()) / 2);
@@ -87,11 +95,11 @@ public class Zork extends Application {
     }
 
     /**
-     * Shows the person overview inside the root layout.
+     * The first graphics loading screen
      */
     public void showLoadingScreen() {
         try {
-            // Load person overview.
+            // Loading the intro graphics screen
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Zork.class.getResource("LoadingScreen.fxml"));
             AnchorPane splashScreen = (AnchorPane)loader.load();
@@ -123,6 +131,7 @@ public class Zork extends Application {
         return primaryStage;
     }
 
+    // Java FX code
     public static void main(String[] args) {
         launch(args);
     }

@@ -42,7 +42,7 @@ public class Weapon extends Item {
 	}
 
 	public String toString() {
-		return String.format("Weapon - %s, weight: %s, power: %d, accuracy: %d, ammo: %d, ammUsage: %d",
+		return String.format("Weapon - %s, weight: %s, power: %d, accuracy: %d, ammo: %d, ammoUsage: %d",
 				super.getName(), super.getWeight(), this.power, this.accuracy, this.ammo, this.ammoUsage);
 	}
 

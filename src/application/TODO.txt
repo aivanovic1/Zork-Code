@@ -8,16 +8,26 @@
 [DONE] Define characters in the definition file (per room)
 [DONE] Character class
 
-- Commands
-- Drop
+[DONE] Drop
 [DONE] Move
-- Inspect
 [DONE] Check
 [DONE] Take (take all, take + String)
-- Design combat
+- Inspect
+
+- Design Combat
+-- Attack
+-- Use (medicine)
+-- Throw grenade
 
 [DONE] fix inventory and capacity
 [DONE] fix ability in all toString methods for items
 - Opening Story
-- Story for Rooms
+[DONE] Story for Rooms
+- Message for Rooms (when you need a key and don't have that key)
+- Add Lockable boolean to rooms for message
+- Parse inspect and item being inspected and return response
 - Inventory Panel
+- When reporting invalid command don't replace the first word
+[DONE] add boolean firstTimeEntered
+
+- Do final sequence, once story2 plays and you hit ok, timer begins and once timer runs out play one of three endings depending on where you are

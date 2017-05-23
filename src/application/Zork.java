@@ -82,6 +82,7 @@ public class Zork extends Application {
             Zork.primaryStage.setScene(scene);
             Zork.primaryStage.setResizable(true);
             Zork.primaryStage.sizeToScene();
+            Zork.primaryStage.setTitle("Zork");
             Zork.primaryStage.show();
 
             // center the screen

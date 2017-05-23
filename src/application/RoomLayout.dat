@@ -160,6 +160,8 @@ $Inventory S: ExoticWeapon, Famine, 4, Vampire, 10, 50, 12, 1
 $Inventory S: ExoticWeapon, Death, 6, Scale, 17, 30, 40, 5
 $Inventory S: Grenade, Nerve Agent, 2, Nerve, 0
 
+#Inspect RoomID: Item Name, Response
+
 #Characters RoomID: Name, Health, Power, Accuracy, Reduction
 
 $Character K: Rogue Crew Member, 50, 5, 45, 0

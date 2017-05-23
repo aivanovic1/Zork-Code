@@ -21,6 +21,7 @@ public class Room {
 	 */
 	public Room(String id) {
 		this.id = id;
+		this.items = new ArrayList<Item>();
 	}
 
 	/**
@@ -163,6 +164,18 @@ public class Room {
 	public boolean isEntranceRoom() {
 		return entranceRoom;
 	}
+	/**
+	 * @return the firstTimeEntered
+	 */
+	public boolean isFirstTimeEntered() {
+		return firstTimeEntered;
+	}
+	/**
+	 * @param firstTimeEntered the firstTimeEntered to set
+	 */
+	public void setFirstTimeEntered(boolean firstTimeEntered) {
+		this.firstTimeEntered = firstTimeEntered;
+	}
 
 	//construct the item you want in a room (you can add more if it is needed. e.g, Item itemFour)
 	public void setItems(Item itemOne, Item ItemTwo, Item itemThree){
@@ -187,6 +200,13 @@ public class Room {
 			}
 		}
 		return itemsDescription;
+	}
+
+	/**
+	 * @return the characters
+	 */
+	public List<Character> getCharacters() {
+		return characters;
 	}
 
 	//getter for the items list
@@ -340,6 +360,8 @@ public class Room {
 	private Room south = null;
 	private Room east = null;
 	private Room west = null;
+
+	private boolean firstTimeEntered = false;
 
 	private String description = null;
 	private String story = null;

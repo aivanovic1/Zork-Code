@@ -29,7 +29,7 @@ public class ZorkController {
 	public final ObservableList history = FXCollections.observableArrayList();
 
 	public final ObservableList commandsList = FXCollections.observableArrayList(
-			"North, N, Go North, Go N", "South, S, Go South, Go S", "East, E, Go East, Go E", "West, W, Go West, Go W", "Take, T", "Drop, D", "Inspect", "Check, C");
+			"North, N, Go North, Go N", "South, S, Go South, Go S", "East, E, Go East, Go E", "West, W, Go West, Go W", "Take, T", "Drop, D", "Inspect", "Check, C", "Inventory, I");
 
     @FXML
     private Button helpButton;

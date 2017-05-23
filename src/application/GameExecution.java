@@ -94,14 +94,110 @@ public class GameExecution {
 		} else if (commandVerb.startsWith("take")) {
 			take(command);
 		} else if (commandVerb.startsWith("drop")) {
-
+			drop(command);
 		} else if (commandVerb.startsWith("check")) {
-			check(commandVerb);
+			if (command.getParams().size() > 0) this.history.add("ANG3L: Invalid check command: " + command.generateFullCommand());
+			else check(commandVerb);
+		} else if (commandVerb.startsWith("inventory")) {
+			if (command.getParams().size() > 0) this.history.add("ANG3L: Invalid inventory command: " + command.generateFullCommand());
+			else inventory(commandVerb);
+		} else if (commandVerb.startsWith("inspect")) {
+			inspect(command);
 		} else if (commandVerb.startsWith("print")) {
 			print(commandVerb);
 		} else if (commandVerb.startsWith("player")) {
 			printPlayer(commandVerb);
 		}
+		else
+			this.history.add("ANG3L: Invalid command: " + command.generateFullCommand());
+	}
+
+	private void inspect(Command command) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void inventory(String commandVerb) {
+		String message = null;
+
+		if (this.player.getPlayerInventory().getInventory() == null || this.player.getPlayerInventory().getInventory().size() == 0) message = "ANG3L: There's nothing in your inventory.";
+		else{
+			message = "ANG3L: You have the following items in your inventory: ";
+
+			for (int i = 0; i < this.player.getPlayerInventory().getInventory().size(); i++){
+				if (i == 0) message += this.player.getPlayerInventory().getInventory().get(i).getName() + " (" + (i+1) + ")";
+				else message += ", " + this.player.getPlayerInventory().getInventory().get(i).getName() + " (" + (i+1) + ")";
+			}
+		}
+		this.history.add(message);
+	}
+
+	/**
+	 * Processes drop command
+	 *
+	 * @param command
+	 */
+	private void drop(Command command) {
+
+		String message = null;
+
+		if (command.getParams().size() == 0){
+			message = "ANG3L: Drop what?";
+			this.history.add(message);
+			return;
+		}
+
+		if (this.player.getPlayerInventory().getInventory() == null || this.player.getPlayerInventory().getInventory().isEmpty()){
+			message = "ANG3L: There are no items in your inventory!";
+			this.history.add(message);
+			return;
+		}
+		int itemNumber = -1;
+
+		try {
+			itemNumber = Integer.parseInt(command.getParam(1))-1;
+
+			Item item = this.player.getPlayerInventory().getInventory().remove(itemNumber);
+			this.currentRoom.getItems().add(item);
+
+			message = "ANG3L: You dropped: " + item.getName();
+
+		} catch (NumberFormatException e) {
+
+			if ("all".equalsIgnoreCase(command.getParam(1))){
+				message = "ANG3L: You dropped: \n";
+				for (int i = this.player.getPlayerInventory().getInventory().size()-1; i >= 0; i--){
+
+					Item item = this.player.getPlayerInventory().getInventory().get(i);
+					message += (item.toString() + "\n");
+					this.currentRoom.getItems().add(item);
+				}
+
+				this.player.getPlayerInventory().getInventory().clear();
+			}
+			else {
+				boolean nameNotFound = true;
+				int i = 0;
+
+				while(nameNotFound && i < this.player.getPlayerInventory().getInventory().size()) {
+					if (this.player.getPlayerInventory().getInventory().get(i).getName().equalsIgnoreCase(command.generateFullCommandNoVerb())) nameNotFound = false;
+					else i++;
+				}
+
+				if (!nameNotFound) {
+
+					Item item = this.player.getPlayerInventory().getInventory().get(i);
+					this.currentRoom.getItems().add(this.player.getPlayerInventory().getInventory().remove(i));
+
+					message = "ANG3L: You dropped: " + item.getName();
+				}
+				else {
+					message = "ANG3L: I'm not sure that item exists...";
+				}
+			}
+ 		}
+
+		this.history.add(message);
 	}
 
 	/**
@@ -132,6 +228,12 @@ public class GameExecution {
 	 */
 	private void take(Command command) {
 		String message = null;
+
+		if (command.getParams().size() == 0){
+			message = "ANG3L: Take what?";
+			this.history.add(message);
+			return;
+		}
 
 		if (this.currentRoom.getItems() == null || this.currentRoom.getItems().isEmpty()){
 			message = "ANG3L: There are no items in this room!";
@@ -234,7 +336,7 @@ public class GameExecution {
 				this.currentRoom = this.currentRoom.getNorth();
 				message = ">> going north! Entered room: " + this.currentRoom.getName();
 			} else {
-				message = ">> going north! No room found! Back to: " + this.currentRoom.getName();
+				message = "ANG3L: There's no room to the north of here!";
 			}
 		}
 		else if (direction.equalsIgnoreCase("south")) {
@@ -242,7 +344,7 @@ public class GameExecution {
 				this.currentRoom = this.currentRoom.getSouth();
 				message = ">> going south! Entered room: " + this.currentRoom.getName();
 			} else {
-				message = ">> going south! No room found! Back to: " + this.currentRoom.getName();
+				message = "ANG3L: There's no room to the south of here!";
 			}
 		}
 		else if (direction.equalsIgnoreCase("east")) {
@@ -250,7 +352,7 @@ public class GameExecution {
 				this.currentRoom = this.currentRoom.getEast();
 				message = ">> going east! Entered room: " + this.currentRoom.getName();
 			} else {
-				message = ">> going east! No room found! Back to: " + this.currentRoom.getName();
+				message = "ANG3L: There's no room to the east of here!";
 			}
 		}
 		else if (direction.equalsIgnoreCase("west")) {
@@ -258,16 +360,27 @@ public class GameExecution {
 				this.currentRoom = this.currentRoom.getWest();
 				message = ">> going west! Entered room: " + this.currentRoom.getName();
 			} else {
-				message = ">> going west! No room found! Back to: " + this.currentRoom.getName();
+				message = "ANG3L: There's no room to the west of here!";
 			}
 		}
 
 		this.history.add(message);
 
+		if (!this.currentRoom.isFirstTimeEntered()) {
+			this.currentRoom.setFirstTimeEntered(true);
+			if (this.currentRoom.getStory() != null) this.history.add(this.currentRoom.getStory());
+			if (this.currentRoom.getCharacters() != null && this.currentRoom.getCharacters().size() > 0) {
+				//TODO
+				this.history.add("*** combat start ***");
+			}
+			if (this.currentRoom.getStory2() != null) this.history.add(this.currentRoom.getStory2());
+		}
+
 		// display room description text
 		if (this.currentRoom.getDescription() != null) {
 			this.history.add(this.currentRoom.getDescription());
 		}
+
 	}
 
 	/**
@@ -281,9 +394,10 @@ public class GameExecution {
    		this.commandsMap.put("check", "Check"); this.commandsMap.put("c", "Check");
    		this.commandsMap.put("drop", "Drop"); this.commandsMap.put("d", "Drop");
    		this.commandsMap.put("take", "Take"); this.commandsMap.put("t", "Take");
-   		this.commandsMap.put("inspect", "Inspect"); this.commandsMap.put("i", "Inspect");
-   		this.commandsMap.put("p", "Print");
-   		this.commandsMap.put("pp", "Player");
+   		this.commandsMap.put("i", "Inventory"); this.commandsMap.put("inventory", "Inventory");
+   		this.commandsMap.put("inspect", "Inspect");
+   		this.commandsMap.put("pp", "Print");
+   		this.commandsMap.put("p", "Player");
 	}
 
 	// ---------- member variables

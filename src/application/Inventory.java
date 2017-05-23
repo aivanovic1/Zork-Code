@@ -81,6 +81,6 @@ public class Inventory {
 	private int weight = 0;
 	private int currentIndex;
 
-	private final int MAXVALUE = 10; // the max weight a character can take
+	private final int MAXVALUE = 25; // the max weight a character can take
 
 } // end Inventory

@@ -68,7 +68,7 @@ $Room: * - Bridge
 # PlayerInfo: Health, Capacity
 # PlayerItem: Item (same as inventory declarations below)
 
-$PlayerInfo: 100, 10
+$PlayerInfo: 100, 25
 
 $PlayerItem: Weapon, ST-1 Pistol, 3, 3, 40, 6, 1
 $PlayerItem: Grenade, Flashbang, 1, Stun, 0

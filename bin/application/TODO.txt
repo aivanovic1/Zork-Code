@@ -1,0 +1,21 @@
+
+
+
+[DONE] Create Inventory items to put in rooms (in the room definition text file)
+[DONE] Parse inventory and allocate to each room
+[DONE] Player class
+
+[DONE] Define characters in the definition file (per room)
+[DONE] Character class
+
+- Commands
+- Drop
+[DONE] Move
+- Inspect
+[DONE] Check
+[DONE] Take (take all, take + String)
+
+- fix ability in all toString methods for items
+- Opening Story
+- Story for Rooms
+- Inventory Panel

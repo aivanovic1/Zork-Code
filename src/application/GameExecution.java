@@ -31,7 +31,7 @@ public class GameExecution {
 			this.path.add(this.currentRoom);
 		}
 
-		this.history = history;
+		this.historyDataList = history;
 		this.player = player;
 
 		this.initializeCommands();
@@ -96,10 +96,10 @@ public class GameExecution {
 		} else if (commandVerb.startsWith("drop")) {
 			drop(command);
 		} else if (commandVerb.startsWith("check")) {
-			if (command.getParams().size() > 0) this.history.add("ANG3L: Invalid check command: " + command.generateFullCommand());
+			if (command.getParams().size() > 0) this.displayInHistoryPanel("ANG3L: Invalid check command: " + command.generateFullCommand());
 			else check(commandVerb);
 		} else if (commandVerb.startsWith("inventory")) {
-			if (command.getParams().size() > 0) this.history.add("ANG3L: Invalid inventory command: " + command.generateFullCommand());
+			if (command.getParams().size() > 0) this.displayInHistoryPanel("ANG3L: Invalid inventory command: " + command.generateFullCommand());
 			else inventory(commandVerb);
 		} else if (commandVerb.startsWith("inspect")) {
 			inspect(command);
@@ -109,7 +109,7 @@ public class GameExecution {
 			printPlayer(commandVerb);
 		}
 		else
-			this.history.add("ANG3L: Invalid command: " + command.generateFullCommand());
+			this.displayInHistoryPanel("ANG3L: Invalid command: " + command.generateFullCommand());
 	}
 
 	private void inspect(Command command) {
@@ -129,7 +129,7 @@ public class GameExecution {
 				else message += ", " + this.player.getPlayerInventory().getInventory().get(i).getName() + " (" + (i+1) + ")";
 			}
 		}
-		this.history.add(message);
+		this.displayInHistoryPanel(message);
 	}
 
 	/**
@@ -143,13 +143,13 @@ public class GameExecution {
 
 		if (command.getParams().size() == 0){
 			message = "ANG3L: Drop what?";
-			this.history.add(message);
+			this.displayInHistoryPanel(message);
 			return;
 		}
 
 		if (this.player.getPlayerInventory().getInventory() == null || this.player.getPlayerInventory().getInventory().isEmpty()){
 			message = "ANG3L: There are no items in your inventory!";
-			this.history.add(message);
+			this.displayInHistoryPanel(message);
 			return;
 		}
 		int itemNumber = -1;
@@ -197,7 +197,7 @@ public class GameExecution {
 			}
  		}
 
-		this.history.add(message);
+		this.displayInHistoryPanel(message);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class GameExecution {
 		String message = currentRoom.toString();
 		currentRoom.print();
 
-		this.history.add(message);
+		this.displayInHistoryPanel(message);
 	}
 
 	/**
@@ -231,13 +231,13 @@ public class GameExecution {
 
 		if (command.getParams().size() == 0){
 			message = "ANG3L: Take what?";
-			this.history.add(message);
+			this.displayInHistoryPanel(message);
 			return;
 		}
 
 		if (this.currentRoom.getItems() == null || this.currentRoom.getItems().isEmpty()){
 			message = "ANG3L: There are no items in this room!";
-			this.history.add(message);
+			this.displayInHistoryPanel(message);
 			return;
 		}
 		int itemNumber = -1;
@@ -298,7 +298,7 @@ public class GameExecution {
 			}
  		}
 
-		this.history.add(message);
+		this.displayInHistoryPanel(message);
 	}
 
 	/**
@@ -318,7 +318,7 @@ public class GameExecution {
 				else message += ", " + this.currentRoom.getItems().get(i).getName() + " (" + (i+1) + ")";
 			}
 		}
-		this.history.add(message);
+		this.displayInHistoryPanel(message);
 	}
 
 	/**
@@ -364,23 +364,52 @@ public class GameExecution {
 			}
 		}
 
-		this.history.add(message);
+		this.displayInHistoryPanel(message);
 
 		if (!this.currentRoom.isFirstTimeEntered()) {
 			this.currentRoom.setFirstTimeEntered(true);
-			if (this.currentRoom.getStory() != null) this.history.add(this.currentRoom.getStory());
+			if (this.currentRoom.getStory() != null) this.displayInHistoryPanel(this.currentRoom.getStory());
 			if (this.currentRoom.getCharacters() != null && this.currentRoom.getCharacters().size() > 0) {
 				//TODO
-				this.history.add("*** combat start ***");
+				this.displayInHistoryPanel("*** combat start ***");
 			}
-			if (this.currentRoom.getStory2() != null) this.history.add(this.currentRoom.getStory2());
+			if (this.currentRoom.getStory2() != null) this.displayInHistoryPanel(this.currentRoom.getStory2());
 		}
 
 		// display room description text
 		if (this.currentRoom.getDescription() != null) {
-			this.history.add(this.currentRoom.getDescription());
+			this.displayInHistoryPanel(this.currentRoom.getDescription());
 		}
 
+	}
+
+	/**
+	 * Cut the message in the history panel in smaller sizes
+	 *
+	 * @param message
+	 */
+	public void displayInHistoryPanel(String message) {
+
+		if (message == null || message.isEmpty()) return;
+
+		if (message.length() <= MAX_MSG_SIZE) {
+			this.historyDataList.add(message);
+		} else {
+			String arr[] = message.split(" ");
+
+			String msg = "";
+			for(String s : arr) {
+				if (msg.isEmpty()) msg += s;
+				else msg += (" " + s);
+
+				if (msg.length() >= MAX_MSG_SIZE) {
+					this.historyDataList.add(msg);
+					msg = "";
+				}
+			}
+
+			if (!msg.isEmpty()) this.historyDataList.add(msg);
+		}
 	}
 
 	/**
@@ -402,11 +431,13 @@ public class GameExecution {
 
 	// ---------- member variables
 
+	final private int MAX_MSG_SIZE = 100;
+
 	private Player player = null;
 	private Room currentRoom = null;
 	private List<Room> path = new LinkedList<Room>();
 
-	private ObservableList history = null;
+	private ObservableList historyDataList = null;
 	private final Map<String, String> commandsMap = new HashMap<String, String>();
 
-}	// end GamePlay
+}	// end GameExecution

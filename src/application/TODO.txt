@@ -21,11 +21,12 @@
 
 [DONE] fix inventory and capacity
 [DONE] fix ability in all toString methods for items
+{DONE] fix the size of messages in the history panel
 - Opening Story
 [DONE] Story for Rooms
 - Message for Rooms (when you need a key and don't have that key)
 - Add Lockable boolean to rooms for message
-- Parse inspect and item being inspected and return response
+[DONE] Parse inspect and item being inspected and return response
 - Inventory Panel
 - When reporting invalid command don't replace the first word
 [DONE] add boolean firstTimeEntered

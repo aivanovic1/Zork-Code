@@ -34,6 +34,8 @@ public class RoomsAndMapParser {
 	private static final int PARSE_INVENTORY = 9;
 	private static final int PARSE_CHARACTER = 10;
 	private static final int PARSE_PLAYER = 11;
+	private static final int PARSE_INSPECT = 12;
+	private static final int PARSE_INSPECT_RESPONSE = 13;
 
 	public RoomsAndMapParser(String fileName) {
 		this.fileName = fileName;
@@ -107,6 +109,24 @@ public class RoomsAndMapParser {
             			this.player.getPlayerInventory().addItem(item);
             		}
             	}
+            	else if (line.trim().startsWith("$Inspect ")) {
+
+            		parsingSection = PARSE_INSPECT;
+            		currentRoom = whatRoom(line);
+
+            		int index = -1;
+            		if ((index = line.indexOf(":")) > -1) {
+            			this.inspectParsing(line.substring(index+1), currentRoom);
+            		}
+            	}
+            	else if (line.trim().startsWith("$InspectResponse ")) {
+
+            		// this is just to avoid repeating similar code; only one of the collections will be populated by parsed text (textBuffer)
+            		this.fillTextBuffer(parsingSection, currentRoom, textBuffer);
+
+            		parsingSection = PARSE_INSPECT_RESPONSE;
+            		currentRoom = whatRoom(line);
+	        	}
             	else if (line.trim().startsWith("$Inventory ")) {
 
             		parsingSection = PARSE_INVENTORY;
@@ -214,6 +234,27 @@ public class RoomsAndMapParser {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Inspect parsing
+	 *
+	 * @param substring
+	 * @return
+	 */
+	private void inspectParsing(String inspectItemName, String roomID) {
+
+		// check if we already have the list for the given room
+		List<String> listItems = this.inspectMap.get(roomID.toUpperCase());
+
+		// if not, create the new empty list and add to the HashMap for this roomID
+		if (listItems == null) {
+			listItems = new ArrayList<String>();
+			this.inspectMap.put(roomID.toUpperCase(), listItems);
+		}
+
+		// finally, add the item to the list
+		listItems.add(inspectItemName.trim());
 	}
 
 	/**
@@ -379,6 +420,12 @@ public class RoomsAndMapParser {
 		else if ((index = line.indexOf("$Character ")) > -1 && (endIndex = line.indexOf(":", index + 10)) > -1) {
 			return line.substring(index + 10, endIndex).trim();
 		}
+		else if ((index = line.indexOf("$Inspect ")) > -1 && (endIndex = line.indexOf(":", index + 8)) > -1) {
+			return line.substring(index + 8, endIndex).trim();
+		}
+		else if ((index = line.indexOf("$InspectResponse ")) > -1 && (endIndex = line.indexOf(":", index + 16)) > -1) {
+			return line.substring(index + 16, endIndex).trim();
+		}
 		else if ((index = line.indexOf("$Desc ")) > -1 && (endIndex = line.indexOf(":", index + 5)) > -1) {
 			return line.substring(index + 5, endIndex).trim();
 		}
@@ -402,7 +449,7 @@ public class RoomsAndMapParser {
 	 * @return
 	 */
 	private boolean isTextProcessing(int processType) {
-		if (processType == PARSE_DESC || processType == PARSE_STORY || processType == PARSE_STORY2 ||
+		if (processType == PARSE_DESC || processType == PARSE_STORY || processType == PARSE_STORY2 || processType == PARSE_INSPECT_RESPONSE ||
 				processType == PARSE_AI || processType == PARSE_MESSAGE || processType == PARSE_ENDING) return true;
 
 		return false;
@@ -432,6 +479,20 @@ public class RoomsAndMapParser {
 			}
 			else if (processType == PARSE_STORY2) {
 				this.story2Map.put(roomID.toUpperCase(), text);
+			}
+			else if (processType == PARSE_INSPECT_RESPONSE) {
+
+				// check if we already have the list for the given room
+				List<String> listResponses = this.inspectResponseMap.get(roomID.toUpperCase());
+
+				// if not, create the new empty list and add to the HashMap for this roomID
+				if (listResponses == null) {
+					listResponses = new ArrayList<String>();
+					this.inspectResponseMap.put(roomID.toUpperCase(), listResponses);
+				}
+
+				// finally, add the item to the list
+				listResponses.add(text);
 			}
 			else if (processType == PARSE_AI) {
 				this.AIMap.put(roomID.toUpperCase(), text);
@@ -675,6 +736,26 @@ public class RoomsAndMapParser {
 			r.setCharacters(characters);
 		}
 
+		if (this.inspectMap.size() != this.inspectResponseMap.size()) {
+			System.err.println("Inspect information is not matching with Responses!");
+		}
+		else {
+
+			// map all Inspect items with the rooms
+			for(String roomID : this.inspectMap.keySet()) {
+				Room r = this.roomsMap.get(roomID);
+				List<String> inspectItems = this.inspectMap.get(roomID);
+				r.setInspectItems(inspectItems);
+			}
+
+			// map all Inspect responses with the rooms
+			for(String roomID : this.inspectResponseMap.keySet()) {
+				Room r = this.roomsMap.get(roomID);
+				List<String> inspectResponseItems = this.inspectResponseMap.get(roomID);
+				r.setInspectResponses(inspectResponseItems);
+			}
+		}
+
 		return finalMap;
 	}
 
@@ -733,6 +814,12 @@ public class RoomsAndMapParser {
 
 	// keep the different endings of the story
 	private List<String> endings = new ArrayList<String>();
+
+	// keep the inspect items while parsing
+	private Map<String, List<String>> inspectMap = new HashMap<String, List<String>>();
+
+	// keep the inspect responses while parsing
+	private Map<String, List<String>> inspectResponseMap = new HashMap<String, List<String>>();
 
 	// keep the items while parsing
 	private Map<String, List<Item>> inventoryMap = new HashMap<String, List<Item>>();

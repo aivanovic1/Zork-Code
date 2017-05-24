@@ -160,8 +160,6 @@ $Inventory S: ExoticWeapon, Famine, 4, Vampire, 10, 50, 12, 1
 $Inventory S: ExoticWeapon, Death, 6, Scale, 17, 30, 40, 5
 $Inventory S: Grenade, Nerve Agent, 2, Nerve, 0
 
-#Inspect RoomID: Item Name, Response
-
 #Characters RoomID: Name, Health, Power, Accuracy, Reduction
 
 $Character K: Rogue Crew Member, 50, 5, 45, 0
@@ -184,6 +182,27 @@ $Character Z: Sergeant Autumn, 125, 10, 50, 50
 $Character *: Captain Valkorion, 150, 15, 60, 50
 
 #ADD THREE KEY FRAGMENTS TO UNLOCK ARMOURY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+#Inspect RoomID: Item Name
+
+$Inspect A: Computer
+$Inspect A: Lock
+$Inspect A: Safe
+
+#InspectResponse RoomID:
+# text needs to start at the next line to be properly processed!
+
+$InspectResponse A:
+Computer is blah, blah, ..
+And more blah blah ..
+
+$InspectResponse A:
+Lock is a great thingy!
+
+$InspectResponse A:
+Safe is meh!
+But go for it ...
+
 
 $Story A:
 Freelance Operator #357, this is your mission:

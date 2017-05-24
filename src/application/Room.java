@@ -203,6 +203,34 @@ public class Room {
 	}
 
 	/**
+	 * @return the inspectItems
+	 */
+	public List<String> getInspectItems() {
+		return inspectItems;
+	}
+
+	/**
+	 * @param inspectItems the inspectItems to set
+	 */
+	public void setInspectItems(List<String> inspectItems) {
+		this.inspectItems = inspectItems;
+	}
+
+	/**
+	 * @return the inspectResponses
+	 */
+	public List<String> getInspectResponses() {
+		return inspectResponses;
+	}
+
+	/**
+	 * @param inspectResponses the inspectResponses to set
+	 */
+	public void setInspectResponses(List<String> inspectResponses) {
+		this.inspectResponses = inspectResponses;
+	}
+
+	/**
 	 * @return the characters
 	 */
 	public List<Character> getCharacters() {
@@ -300,6 +328,17 @@ public class Room {
 		else
 			System.out.printf("  No characters in the room!%n");
 
+		if (this.inspectItems != null) {
+			System.out.printf("  Room inspect items:%n");
+			int i = 0;
+			for (String s : this.inspectItems){
+				System.out.printf("    Inspect item: %s, response text size: %d%n", s, this.inspectResponses.get(i).length());
+				++i;
+			}
+		}
+		else
+			System.out.printf("  No inspect items in the room!%n");
+
 		String text = "";
 		if (this.description != null) {
 			if (this.description.length() > 16) {
@@ -352,6 +391,8 @@ public class Room {
 	private String name = null;
 
 	private List<Item> items = null;
+	private List<String> inspectItems = null;
+	private List<String> inspectResponses = null;
 	private List<Character> characters = null;
 
 	private boolean entranceRoom = false;

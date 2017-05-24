@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 
 /**
@@ -368,7 +370,16 @@ public class GameExecution {
 
 		if (!this.currentRoom.isFirstTimeEntered()) {
 			this.currentRoom.setFirstTimeEntered(true);
-			if (this.currentRoom.getStory() != null) this.displayInHistoryPanel(this.currentRoom.getStory());
+			if (this.currentRoom.getStory() != null) {
+
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Room " + this.currentRoom.getName() );
+				alert.setHeaderText(null);
+				alert.setContentText(this.currentRoom.getStory());
+				alert.showAndWait();
+
+				this.displayInHistoryPanel(this.currentRoom.getStory());
+			}
 			if (this.currentRoom.getCharacters() != null && this.currentRoom.getCharacters().size() > 0) {
 				//TODO
 				this.displayInHistoryPanel("*** combat start ***");
@@ -431,7 +442,7 @@ public class GameExecution {
 
 	// ---------- member variables
 
-	final private int MAX_MSG_SIZE = 100;
+	final private int MAX_MSG_SIZE = 120;
 
 	private Player player = null;
 	private Room currentRoom = null;

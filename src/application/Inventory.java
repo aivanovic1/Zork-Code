@@ -51,9 +51,31 @@ public class Inventory {
 		return inventory;
 	}
 
-	//getter for the number of inventory
-	public int getNumItems(){
-		return inventory.size();
+	public int getTotalInventorySize() {
+		return this.inventory.size();
+	}
+
+	public int getTotalActiveInventorySize() {
+
+		int totalActive = 0;
+		for(Item item : this.inventory) {
+			if (item.isActive()) ++totalActive;
+		}
+
+		return totalActive;
+	}
+
+	/**
+	 * Get the item - user is counting from #1
+	 *
+	 * @param index
+	 * @return
+	 */
+	public Item getItem(int index) {
+		int ndx = index - 1;
+		if (ndx < 0 || ndx >= this.inventory.size()) return null;
+
+		return this.inventory.get(ndx);
 	}
 
 	//print out the inventory you have

@@ -9,7 +9,7 @@ package application;
  */
 public class ExoticMeleeWeapon extends Item {
 	public ExoticMeleeWeapon(String name, int weight, String ability, int power) {
-		super(name, weight);
+		super(name, weight, ItemType.ITEM_TYPE_EXOTIC_MELEE);
 		this.ability = WeaponAbilityType.abilityStringToType(ability);
 		this.power = power;
 	}
@@ -32,6 +32,17 @@ public class ExoticMeleeWeapon extends Item {
 		return power;
 	}
 
+	public Damage use(Player player) {
+		Zork.combatHistory.add("ANG3L: Clean cut!");
+		return new Damage(power,ability);
+	}
+
+	@Override
+	public ExtendedItem convertToExtendedItem() {
+
+		return new ExtendedItem(this.getName(), this.getType(), this.getWeight(), this.getAbilityAsString(), 0, 0, this.power, 0, 1, 0, 0, 0);
+	}
+
 	public String toString() {
 		return String.format("ExoticMeleeWeapon - %s, weight: %s, ability: %s, power: %d",
 				super.getName(), super.getWeight(), this.ability.toString(), this.power);
@@ -40,4 +51,4 @@ public class ExoticMeleeWeapon extends Item {
 	private int power = 0;
 	private WeaponAbilityType ability = WeaponAbilityType.WEAPON_ABILITY_NONE;
 
-}//end ExoticMeleeWeapon
+} // end ExoticMeleeWeapon

@@ -10,7 +10,7 @@ package application;
 public class Armour extends Item {
 
 	public Armour(String name, int weight, int reduction, int durability) {
-		super(name, weight);
+		super(name, weight, ItemType.ITEM_TYPE_ARMOUR);
 		this.reduction = reduction;
 		this.durability = durability;
 	}
@@ -25,6 +25,26 @@ public class Armour extends Item {
 	 */
 	public int getDurability() {
 		return durability;
+	}
+
+	public int reduce(int damageDealt) {
+		if (this.isActive()) {
+			this.durability--;
+			return damageDealt * (this.reduction/100);
+		}
+		return damageDealt;
+	}
+
+	@Override
+	public boolean isActive() {
+		if (this.durability > 0) return true;
+		return false;
+	}
+
+	@Override
+	public ExtendedItem convertToExtendedItem() {
+
+		return new ExtendedItem(this.getName(), this.getType(), this.getWeight(), "", 0, 0, 0, 0, 1, 0, this.reduction, this.durability);
 	}
 
 	public String toString() {

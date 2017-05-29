@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -29,8 +30,7 @@ public class GameExecution {
 	 */
 	public GameExecution(Room startRoom, Player player, ObservableList history) {
 		if (startRoom != null) {
-			this.currentRoom = startRoom;
-			this.path.add(this.currentRoom);
+			Zork.currentRoom = startRoom;
 		}
 
 		this.historyDataList = history;
@@ -78,6 +78,9 @@ public class GameExecution {
     		}
     	}
 
+    	// store the original command in case the user's entry was incorrect
+    	command.setOriginalEnteredCommand(entry);
+
     	return command;
 	}
 
@@ -98,10 +101,10 @@ public class GameExecution {
 		} else if (commandVerb.startsWith("drop")) {
 			drop(command);
 		} else if (commandVerb.startsWith("check")) {
-			if (command.getParams().size() > 0) this.displayInHistoryPanel("ANG3L: Invalid check command: " + command.generateFullCommand());
+			if (command.getParams().size() > 0) Zork.displayInHistoryPanel("ANG3L: Invalid check command: " + command.getOriginalEnteredCommand());
 			else check(commandVerb);
 		} else if (commandVerb.startsWith("inventory")) {
-			if (command.getParams().size() > 0) this.displayInHistoryPanel("ANG3L: Invalid inventory command: " + command.generateFullCommand());
+			if (command.getParams().size() > 0) Zork.displayInHistoryPanel("ANG3L: Invalid inventory command: " + command.getOriginalEnteredCommand());
 			else inventory(commandVerb);
 		} else if (commandVerb.startsWith("inspect")) {
 			inspect(command);
@@ -109,16 +112,50 @@ public class GameExecution {
 			print(commandVerb);
 		} else if (commandVerb.startsWith("player")) {
 			printPlayer(commandVerb);
+		} else if (commandVerb.startsWith("goto")) {
+			gotoCommand(command);
 		}
+
 		else
-			this.displayInHistoryPanel("ANG3L: Invalid command: " + command.generateFullCommand());
+			Zork.displayInHistoryPanel("ANG3L: Invalid command: " + command.getOriginalEnteredCommand());
 	}
 
+	/**
+	 * Manage inspect command
+	 *
+	 * @param command
+	 */
 	private void inspect(Command command) {
-		// TODO Auto-generated method stub
 
+		if (command.getParams().size() == 0){
+			Zork.displayInHistoryPanel("ANG3L: Inspect what?");
+			return;
+		}
+
+		if (Zork.currentRoom .getInspectItems() == null) {
+			Zork.displayInHistoryPanel("ANG3L: This room doesn't have anything that needs looking into...");
+			return;
+		}
+
+		String itemToInspect = command.getParam(1);
+
+		int foundAtIndex = -1;
+		for(int i = 0; i < Zork.currentRoom .getInspectItems().size(); ++i) {
+			if (itemToInspect.equalsIgnoreCase(Zork.currentRoom .getInspectItems().get(i))) {
+				foundAtIndex = i;
+				break;
+			}
+		}
+
+		if (foundAtIndex > -1) {
+			Zork.displayInHistoryPanel(Zork.currentRoom .getInspectResponses().get(foundAtIndex));
+		}
+		else {
+			Zork.displayInHistoryPanel("ANG3L: Item: " + itemToInspect + " doesn't exist!");
+		}
 	}
 
+	// inventory
 	private void inventory(String commandVerb) {
 		String message = null;
 
@@ -131,7 +168,8 @@ public class GameExecution {
 				else message += ", " + this.player.getPlayerInventory().getInventory().get(i).getName() + " (" + (i+1) + ")";
 			}
 		}
-		this.displayInHistoryPanel(message);
+
+		Zork.displayInHistoryPanel(message);
 	}
 
 	/**
@@ -145,13 +183,13 @@ public class GameExecution {
 
 		if (command.getParams().size() == 0){
 			message = "ANG3L: Drop what?";
-			this.displayInHistoryPanel(message);
+			Zork.displayInHistoryPanel(message);
 			return;
 		}
 
 		if (this.player.getPlayerInventory().getInventory() == null || this.player.getPlayerInventory().getInventory().isEmpty()){
 			message = "ANG3L: There are no items in your inventory!";
-			this.displayInHistoryPanel(message);
+			Zork.displayInHistoryPanel(message);
 			return;
 		}
 		int itemNumber = -1;
@@ -160,7 +198,7 @@ public class GameExecution {
 			itemNumber = Integer.parseInt(command.getParam(1))-1;
 
 			Item item = this.player.getPlayerInventory().getInventory().remove(itemNumber);
-			this.currentRoom.getItems().add(item);
+			Zork.currentRoom .getItems().add(item);
 
 			message = "ANG3L: You dropped: " + item.getName();
 
@@ -172,7 +210,7 @@ public class GameExecution {
 
 					Item item = this.player.getPlayerInventory().getInventory().get(i);
 					message += (item.toString() + "\n");
-					this.currentRoom.getItems().add(item);
+					Zork.currentRoom .getItems().add(item);
 				}
 
 				this.player.getPlayerInventory().getInventory().clear();
@@ -189,7 +227,7 @@ public class GameExecution {
 				if (!nameNotFound) {
 
 					Item item = this.player.getPlayerInventory().getInventory().get(i);
-					this.currentRoom.getItems().add(this.player.getPlayerInventory().getInventory().remove(i));
+					Zork.currentRoom .getItems().add(this.player.getPlayerInventory().getInventory().remove(i));
 
 					message = "ANG3L: You dropped: " + item.getName();
 				}
@@ -199,7 +237,23 @@ public class GameExecution {
 			}
  		}
 
-		this.displayInHistoryPanel(message);
+		Zork.displayInHistoryPanel(message);
+	}
+
+	/**
+	 * Processes drop command
+	 *
+	 * @param command
+	 */
+	private void gotoCommand(Command command) {
+
+		if (command.getParams().size() == 0){
+			String message = "ANG3L: Room ID?";
+			Zork.displayInHistoryPanel(message);
+			return;
+		}
+
+		this.move(command.generateFullCommand());
 	}
 
 	/**
@@ -217,10 +271,10 @@ public class GameExecution {
 	 * @param command
 	 */
 	private void print(String commandEntered) {
-		String message = currentRoom.toString();
-		currentRoom.print();
+		String message = Zork.currentRoom.toString();
+		Zork.currentRoom.print();
 
-		this.displayInHistoryPanel(message);
+		Zork.displayInHistoryPanel(message);
 	}
 
 	/**
@@ -233,13 +287,13 @@ public class GameExecution {
 
 		if (command.getParams().size() == 0){
 			message = "ANG3L: Take what?";
-			this.displayInHistoryPanel(message);
+			Zork.displayInHistoryPanel(message);
 			return;
 		}
 
-		if (this.currentRoom.getItems() == null || this.currentRoom.getItems().isEmpty()){
+		if (Zork.currentRoom .getItems() == null || Zork.currentRoom .getItems().isEmpty()){
 			message = "ANG3L: There are no items in this room!";
-			this.displayInHistoryPanel(message);
+			Zork.displayInHistoryPanel(message);
 			return;
 		}
 		int itemNumber = -1;
@@ -247,8 +301,8 @@ public class GameExecution {
 		try {
 			itemNumber = Integer.parseInt(command.getParam(1))-1;
 
-			if (this.player.getPlayerInventory().canIAdd(this.currentRoom.getItems().get(itemNumber))) {
-				Item item = this.currentRoom.getItems().remove(itemNumber);
+			if (this.player.getPlayerInventory().canIAdd(Zork.currentRoom .getItems().get(itemNumber))) {
+				Item item = Zork.currentRoom .getItems().remove(itemNumber);
 				this.player.getPlayerInventory().addItem(item);
 
 				message = "ANG3L: You took: " + item.getName();
@@ -260,13 +314,13 @@ public class GameExecution {
 			if ("all".equalsIgnoreCase(command.getParam(1))){
 				message = "ANG3L: You took: \n";
 				boolean capacityReached = false;
-				for (int i = this.currentRoom.getItems().size()-1; i >= 0; i--){
+				for (int i = Zork.currentRoom .getItems().size()-1; i >= 0; i--){
 
-					Item item = this.currentRoom.getItems().get(i);
+					Item item = Zork.currentRoom .getItems().get(i);
 
 					if (this.player.getPlayerInventory().canIAdd(item)) {
 						message += (item.toString() + "\n");
-						this.player.getPlayerInventory().addItem(this.currentRoom.getItems().remove(i));
+						this.player.getPlayerInventory().addItem(Zork.currentRoom .getItems().remove(i));
 					}
 					else
 						capacityReached = true;
@@ -278,17 +332,17 @@ public class GameExecution {
 				boolean nameNotFound = true;
 				int i = 0;
 
-				while(nameNotFound && i < this.currentRoom.getItems().size()) {
-					if (this.currentRoom.getItems().get(i).getName().equalsIgnoreCase(command.generateFullCommandNoVerb())) nameNotFound = false;
+				while(nameNotFound && i < Zork.currentRoom .getItems().size()) {
+					if (Zork.currentRoom .getItems().get(i).getName().equalsIgnoreCase(command.generateFullCommandNoVerb())) nameNotFound = false;
 					else i++;
 				}
 
 				if (!nameNotFound) {
 
-					Item item = this.currentRoom.getItems().get(i);
+					Item item = Zork.currentRoom .getItems().get(i);
 
 					if (this.player.getPlayerInventory().canIAdd(item)) {
-						this.player.getPlayerInventory().addItem(this.currentRoom.getItems().remove(i));
+						this.player.getPlayerInventory().addItem(Zork.currentRoom .getItems().remove(i));
 
 						message = "ANG3L: You took: " + item.getName();
 					}
@@ -300,7 +354,7 @@ public class GameExecution {
 			}
  		}
 
-		this.displayInHistoryPanel(message);
+		Zork.displayInHistoryPanel(message);
 	}
 
 	/**
@@ -311,16 +365,16 @@ public class GameExecution {
 	private void check(String commandEntered) {
 		String message = null;
 
-		if (this.currentRoom.getItems() == null || this.currentRoom.getItems().size() == 0) message = "ANG3L: There's nothing to take in this room.";
+		if (Zork.currentRoom .getItems() == null || Zork.currentRoom .getItems().size() == 0) message = "ANG3L: There's nothing to take in this room.";
 		else{
 			message = "ANG3L: You can take the following items: ";
 
-			for (int i = 0; i < this.currentRoom.getItems().size(); i++){
-				if (i == 0) message += this.currentRoom.getItems().get(i).getName() + " (" + (i+1) + ")";
-				else message += ", " + this.currentRoom.getItems().get(i).getName() + " (" + (i+1) + ")";
+			for (int i = 0; i < Zork.currentRoom .getItems().size(); i++){
+				if (i == 0) message += Zork.currentRoom .getItems().get(i).getName() + " (" + (i+1) + ")";
+				else message += ", " + Zork.currentRoom .getItems().get(i).getName() + " (" + (i+1) + ")";
 			}
 		}
-		this.displayInHistoryPanel(message);
+		Zork.displayInHistoryPanel(message);
 	}
 
 	/**
@@ -329,97 +383,135 @@ public class GameExecution {
 	 * @param command
 	 */
 	private void move(String command) {
+
 		String direction = command.substring(3);
 
 		String message = null;
 
-		if (direction.equalsIgnoreCase("north")) {
-			if (this.currentRoom.getNorth() != null) {
-				this.currentRoom = this.currentRoom.getNorth();
-				message = ">> going north! Entered room: " + this.currentRoom.getName();
+		// this is used when key is needed
+		boolean proceedToNextRoom = true;
+
+		if (command.trim().startsWith("goto ")) {
+			String roomId = command.trim().substring(4).trim();
+
+			Room r = Zork.roomsMap.get(roomId.toUpperCase());
+			if (r != null) {
+				Zork.currentRoom  = r;
+				Zork.roomEntryDirection = RoomEntryDirection.ROOM_ENTRY_DIRECTION_FROM_GOTO;
+			} else {
+				message = "ANG3L: Invalid goto command / room ID not found! {" + command + "}";
+				proceedToNextRoom = false;
+			}
+		}
+		else if (direction.equalsIgnoreCase("north")) {
+
+			if (Zork.currentRoom .getNorth() != null) {
+
+				// check for the LOCKed door going NORTH
+				if(Zork.currentRoom .getLockGoingToRoom() != null && Zork.currentRoom .getLockGoingToRoom().getId().equalsIgnoreCase(Zork.currentRoom .getNorth().getId())) {
+					if (!this.player.hasKeyForRoom(Zork.currentRoom .getLockGoingToRoom().getId())) {
+						// display the message
+						Zork.displayInHistoryPanel(Zork.currentRoom .getMessage());
+						proceedToNextRoom = false;
+					}
+				}
+				else {
+					Zork.currentRoom  = Zork.currentRoom .getNorth();
+					Zork.roomEntryDirection = RoomEntryDirection.ROOM_ENTRY_DIRECTION_FROM_SOUTH;
+					message = ">> going north! Entered room: " + Zork.currentRoom .getName();
+				}
 			} else {
 				message = "ANG3L: There's no room to the north of here!";
+				proceedToNextRoom = false;
 			}
 		}
 		else if (direction.equalsIgnoreCase("south")) {
-			if (this.currentRoom.getSouth() != null) {
-				this.currentRoom = this.currentRoom.getSouth();
-				message = ">> going south! Entered room: " + this.currentRoom.getName();
+			if (Zork.currentRoom .getSouth() != null) {
+
+				// check for the LOCKed door going SOUTH
+				// TODO
+
+				Zork.currentRoom  = Zork.currentRoom .getSouth();
+				Zork.roomEntryDirection = RoomEntryDirection.ROOM_ENTRY_DIRECTION_FROM_NORTH;
+				message = ">> going south! Entered room: " + Zork.currentRoom .getName();
 			} else {
 				message = "ANG3L: There's no room to the south of here!";
+				proceedToNextRoom = false;
 			}
 		}
 		else if (direction.equalsIgnoreCase("east")) {
-			if (this.currentRoom.getEast() != null) {
-				this.currentRoom = this.currentRoom.getEast();
-				message = ">> going east! Entered room: " + this.currentRoom.getName();
+			if (Zork.currentRoom .getEast() != null) {
+
+				// check for the LOCKed door going EAST
+				// TODO
+
+				Zork.currentRoom  = Zork.currentRoom .getEast();
+				Zork.roomEntryDirection = RoomEntryDirection.ROOM_ENTRY_DIRECTION_FROM_WEST;
+				message = ">> going east! Entered room: " + Zork.currentRoom .getName();
 			} else {
 				message = "ANG3L: There's no room to the east of here!";
+				proceedToNextRoom = false;
 			}
 		}
 		else if (direction.equalsIgnoreCase("west")) {
-			if (this.currentRoom.getWest() != null) {
-				this.currentRoom = this.currentRoom.getWest();
-				message = ">> going west! Entered room: " + this.currentRoom.getName();
+			if (Zork.currentRoom .getWest() != null) {
+
+				// check for the LOCKed door going WEST
+				if(Zork.currentRoom .getLockGoingToRoom() != null && Zork.currentRoom .getLockGoingToRoom().getId().equalsIgnoreCase(Zork.currentRoom .getWest().getId())) {
+					if (!this.player.hasKeyForRoom(Zork.currentRoom .getLockGoingToRoom().getId())) {
+						// display the message
+						Zork.displayInHistoryPanel(Zork.currentRoom .getMessage());
+						proceedToNextRoom = false;
+					}
+				}
+				else {
+					Zork.currentRoom  = Zork.currentRoom .getWest();
+					Zork.roomEntryDirection = RoomEntryDirection.ROOM_ENTRY_DIRECTION_FROM_EAST;
+					message = ">> going west! Entered room: " + Zork.currentRoom .getName();
+				}
 			} else {
 				message = "ANG3L: There's no room to the west of here!";
+				proceedToNextRoom = false;
 			}
 		}
 
-		this.displayInHistoryPanel(message);
+		// display everything collected above
+		if (message != null) Zork.displayInHistoryPanel(message);
 
-		if (!this.currentRoom.isFirstTimeEntered()) {
-			this.currentRoom.setFirstTimeEntered(true);
-			if (this.currentRoom.getStory() != null) {
+		if ( proceedToNextRoom ) {
 
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Room " + this.currentRoom.getName() );
-				alert.setHeaderText(null);
-				alert.setContentText(this.currentRoom.getStory());
-				alert.showAndWait();
+			if (!Zork.currentRoom .isFirstTimeEntered()) {
+				Zork.currentRoom .setFirstTimeEntered(true);
+				if (Zork.currentRoom .getStory() != null) {
 
-				this.displayInHistoryPanel(this.currentRoom.getStory());
-			}
-			if (this.currentRoom.getCharacters() != null && this.currentRoom.getCharacters().size() > 0) {
-				//TODO
-				this.displayInHistoryPanel("*** combat start ***");
-			}
-			if (this.currentRoom.getStory2() != null) this.displayInHistoryPanel(this.currentRoom.getStory2());
-		}
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Room " + Zork.currentRoom .getName() );
+					alert.setHeaderText(null);
+					alert.setContentText(Zork.currentRoom .getStory());
+					alert.showAndWait();
 
-		// display room description text
-		if (this.currentRoom.getDescription() != null) {
-			this.displayInHistoryPanel(this.currentRoom.getDescription());
-		}
+					Zork.displayInHistoryPanel(Zork.currentRoom .getStory());
+				}
 
-	}
+				if (Zork.currentRoom .getCharacters() != null && Zork.currentRoom.getTotalAliveCharacters() > 0) {
 
-	/**
-	 * Cut the message in the history panel in smaller sizes
-	 *
-	 * @param message
-	 */
-	public void displayInHistoryPanel(String message) {
+					// COMBAT PANEL
+					CombatPanel combat = new CombatPanel(Zork.currentRoom, Zork.player);
+					combat.start();
+				}
 
-		if (message == null || message.isEmpty()) return;
+				if (Zork.currentRoom .getStory2() != null) Zork.displayInHistoryPanel(Zork.currentRoom .getStory2());
 
-		if (message.length() <= MAX_MSG_SIZE) {
-			this.historyDataList.add(message);
-		} else {
-			String arr[] = message.split(" ");
-
-			String msg = "";
-			for(String s : arr) {
-				if (msg.isEmpty()) msg += s;
-				else msg += (" " + s);
-
-				if (msg.length() >= MAX_MSG_SIZE) {
-					this.historyDataList.add(msg);
-					msg = "";
+				if (Zork.currentRoom.getId().equals("*")) {
+					LastMinute last = new LastMinute();
+					last.start();
 				}
 			}
 
-			if (!msg.isEmpty()) this.historyDataList.add(msg);
+			// display room description text
+			if (Zork.currentRoom .getDescription() != null) {
+				Zork.displayInHistoryPanel(Zork.currentRoom .getDescription());
+			}
 		}
 	}
 
@@ -438,6 +530,7 @@ public class GameExecution {
    		this.commandsMap.put("inspect", "Inspect");
    		this.commandsMap.put("pp", "Print");
    		this.commandsMap.put("p", "Player");
+   		this.commandsMap.put("goto", "goto");
 	}
 
 	// ---------- member variables
@@ -445,8 +538,7 @@ public class GameExecution {
 	final private int MAX_MSG_SIZE = 120;
 
 	private Player player = null;
-	private Room currentRoom = null;
-	private List<Room> path = new LinkedList<Room>();
+	private boolean inCombat = false;
 
 	private ObservableList historyDataList = null;
 	private final Map<String, String> commandsMap = new HashMap<String, String>();

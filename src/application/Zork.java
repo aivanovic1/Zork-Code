@@ -2,12 +2,16 @@ package application;
 
 import java.awt.Dimension;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -24,11 +28,34 @@ import javafx.stage.Stage;
  */
 public class Zork extends Application {
 
+	// the main pane for the app
     private BorderPane mainWindow;
 
-    protected static Stage primaryStage = null;
     protected static Player player = null;
+    protected static Room entranceRoom = null;
+    protected static Stage primaryStage = null;
+
+    protected static Room currentRoom = null;
+
+    //only used in combat panel
+    protected static ObservableList<String> combatHistory = null;
+
+    // used in the main panel to kep the message history
+    protected static ObservableList<String> mainHistoryList = null;
+
+    // last minute handling
+    protected static boolean finalCountdownStarted = false;
+    protected static boolean gameTerminated = false;
+    protected static Label finalMinuteTimerLabel = null;
+
+    protected static TextField commandEntryTextField = null;
+
+    // keep all rooms in the HashMap, accessible from any part of the game
     protected static Map<String, Room> roomsMap = null;
+    protected static List<String> endingMessageList = null;
+    protected static RoomEntryDirection roomEntryDirection = RoomEntryDirection.ROOM_ENTRY_DIRECTION_UNKNOWN;
+
+    private final static int MAX_MSG_SIZE = 120000;
 
     // start() is the main method when running Java FX applications
 
@@ -43,6 +70,13 @@ public class Zork extends Application {
         // parse the game map and definitions for Player, Rooms, Inventory and much more ...
         RoomsAndMapParser roomParser = new RoomsAndMapParser("./src/application/RoomLayout.dat");
         this.roomsMap = roomParser.loadMap();
+
+        for(Room r : Zork.roomsMap.values()) {
+        	if (r.isEntranceRoom()) {
+        		Zork.entranceRoom = r;
+        		break;
+        	}
+        }
 
         // remember the Player object
         Zork.player = roomParser.getPlayer();
@@ -80,8 +114,10 @@ public class Zork extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(mainWindow);
             Zork.primaryStage.setScene(scene);
-            Zork.primaryStage.setResizable(true);
-            Zork.primaryStage.sizeToScene();
+            Zork.primaryStage.setResizable(false);
+            //Zork.primaryStage.sizeToScene();
+            Zork.primaryStage.setHeight(750);
+            Zork.primaryStage.setWidth(1100);
             Zork.primaryStage.setTitle("Zork");
             Zork.primaryStage.show();
 
@@ -123,6 +159,39 @@ public class Zork extends Application {
             e.printStackTrace();
         }
     }
+
+	/**
+	 * Cut the message in the history panel in smaller sizes
+	 *
+	 * @param message
+	 */
+	public static void displayInHistoryPanel(String message) {
+
+		if (message == null || message.isEmpty()) return;
+
+		//if (message.length() > 32) System.out.println("Last 30 characters: [" + message.substring(message.length() - 30) + "]");
+
+		if (message.length() <= MAX_MSG_SIZE) {
+
+			Zork.mainHistoryList.add(message);
+
+		} else {
+			String arr[] = message.split(" ");
+
+			String msg = "";
+			for(String s : arr) {
+				if (msg.isEmpty()) msg += s;
+				else msg += (" " + s);
+
+				if (msg.length() >= MAX_MSG_SIZE) {
+					Zork.mainHistoryList.add(msg);
+					msg = "";
+				}
+			}
+
+			if (!msg.isEmpty()) Zork.mainHistoryList.add(msg);
+		}
+	}
 
     /**
      * Returns the main stage.

@@ -44,6 +44,20 @@ public class Command {
 	}
 
 	/**
+	 * @return the originalEnteredCommnand
+	 */
+	public String getOriginalEnteredCommand() {
+		return originalEnteredCommnand;
+	}
+
+	/**
+	 * @param originalEnteredCommnand the originalEnteredCommnand to set
+	 */
+	public void setOriginalEnteredCommand(String originalEnteredCommnand) {
+		this.originalEnteredCommnand = originalEnteredCommnand;
+	}
+
+	/**
 	 * Generates a String containing all params with the verb
 	 * @return String
 	 */
@@ -72,5 +86,6 @@ public class Command {
 
 	private String verb = null;
 	private List<String> params = null;
+	private String originalEnteredCommnand = null;
 
 } // end Command

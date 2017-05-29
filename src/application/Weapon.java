@@ -10,7 +10,7 @@ package application;
 public class Weapon extends Item {
 
 	public Weapon(String name, int weight, int power, int accuracy, int ammo, int ammoUsage) {
-		super(name, weight);
+		super(name, weight, ItemType.ITEM_TYPE_WEAPON);
 		this.power = power;
 		this.accuracy = accuracy;
 		this.ammo = ammo;
@@ -39,6 +39,33 @@ public class Weapon extends Item {
 	 */
 	public int getAmmoUsage() {
 		return ammoUsage;
+	}
+	/**
+	 * @param ammo the ammo to set
+	 */
+	public void setAmmo(int ammo) {
+		this.ammo = ammo;
+	}
+
+	public Damage use(Player player) {
+		if (this.ammo - this.ammoUsage > 0){
+			this.ammo -= this.ammoUsage;
+			int hit = (int)(Math.random() * 100 + 1);
+			if (1 <= hit && hit <= this.accuracy) {
+				Zork.combatHistory.add("ANG3L: Good shot!");
+				return new Damage(this.power);
+			}
+			else Zork.combatHistory.add("ANG3L: You missed!");
+		}
+		else this.deactivate();
+
+		return new Damage(0);
+	}
+
+	@Override
+	public ExtendedItem convertToExtendedItem() {
+
+		return new ExtendedItem(this.getName(), this.getType(), this.getWeight(), "", this.ammo, this.ammoUsage, this.power, this.accuracy, 1, 0, 0, 0);
 	}
 
 	public String toString() {

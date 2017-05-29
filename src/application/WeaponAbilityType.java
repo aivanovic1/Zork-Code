@@ -10,14 +10,14 @@ package application;
 public enum WeaponAbilityType {
 
 	WEAPON_ABILITY_NONE,
-	WEAPON_ABILITY_EXPLODE,
-	WEAPON_ABILITY_NERVE,
-	WEAPON_ABILITY_SLEEP,
-	WEAPON_ABILITY_STUN,
-	WEAPON_ABILITY_BURN,
-	WEAPON_ABILITY_SHOCK,
-	WEAPON_ABILITY_VAMPIRE,
-	WEAPON_ABILITY_SCALE;
+	WEAPON_ABILITY_EXPLODE, //deal damage = to the grenade's power to enemy
+	WEAPON_ABILITY_NERVE, //end combat instantly against an enemy
+	WEAPON_ABILITY_SLEEP, //skip 5 turns (enemy)
+	WEAPON_ABILITY_STUN, //skip 1 turn (enemy)
+	WEAPON_ABILITY_BURN, //do a little extra damage every turn to enemy(+2)
+	WEAPON_ABILITY_SHOCK, //decreases opponent's accuracy (10%)
+	WEAPON_ABILITY_VAMPIRE, //heals you (+2)
+	WEAPON_ABILITY_SCALE; //increases the power of your weapon each time you use it (+1)
 
 	public String toString() {
 		return WeaponAbilityType.abilityTypeToString(this);

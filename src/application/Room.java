@@ -237,6 +237,14 @@ public class Room {
 		return characters;
 	}
 
+	public int getTotalAliveCharacters() {
+		int count = 0;
+		for (Character c : this.characters) {
+			if (c.isAlive()) ++count;
+		}
+		return count;
+	}
+
 	//getter for the items list
 	public List<Item> getItems(){
 		return items;
@@ -250,6 +258,20 @@ public class Room {
 	// setter for the items list
 	public void setCharacters(List<Character> characters) {
 		this.characters = characters;
+	}
+
+	/**
+	 * @return the lockGoingToRoom
+	 */
+	public Room getLockGoingToRoom() {
+		return lockGoingToRoom;
+	}
+
+	/**
+	 * @param lockGoingToRoom the lockGoingToRoom to set
+	 */
+	public void setLockGoingToRoom(Room lockGoingToRoom) {
+		this.lockGoingToRoom = lockGoingToRoom;
 	}
 
 	//check whether a room has item
@@ -309,6 +331,10 @@ public class Room {
 		System.out.printf("  West exit to: %s%n", this.west != null ? this.west.getName() : "not an exit!");
 		System.out.printf("  East exit to: %s%n", this.east != null ? this.east.getName() : "not an exit!");
 		System.out.printf("  South exit to: %s%n", this.south != null ? this.south.getName() : "not an exit!");
+
+		if (this.lockGoingToRoom != null) {
+			System.out.printf("  Lock exists going to room: %s%n", this.getLockGoingToRoom().getName());
+		}
 
 		if (this.items != null) {
 			System.out.printf("  Room inventory:%n");
@@ -401,6 +427,8 @@ public class Room {
 	private Room south = null;
 	private Room east = null;
 	private Room west = null;
+
+	private Room lockGoingToRoom = null;
 
 	private boolean firstTimeEntered = false;
 

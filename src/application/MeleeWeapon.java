@@ -10,7 +10,7 @@ package application;
 public class MeleeWeapon extends Item {
 
 	public MeleeWeapon(String name, int weight, int power) {
-		super(name, weight);
+		super(name, weight, ItemType.ITEM_TYPE_MELEE);
 		this.power = power;
 	}
 	/**
@@ -18,6 +18,17 @@ public class MeleeWeapon extends Item {
 	 */
 	public int getPower() {
 		return power;
+	}
+
+	public Damage use(Player player) {
+		Zork.combatHistory.add("ANG3L: Good strike!");
+		return new Damage(power);
+	}
+
+	@Override
+	public ExtendedItem convertToExtendedItem() {
+
+		return new ExtendedItem(this.getName(), this.getType(), this.getWeight(), "", 0, 0, this.power, 0, 1, 0, 0, 0);
 	}
 
 	public String toString() {

@@ -71,7 +71,7 @@ $Room: * - Bridge
 $PlayerInfo: 100, 25
 
 $PlayerItem: Weapon, ST-1 Pistol, 3, 3, 40, 6, 1
-$PlayerItem: Grenade, Flashbang, 1, Stun, 0
+$PlayerItem: MeleeWeapon, Weaver Knife, 2, 2
 $PlayerItem: Grenade, Flashbang, 1, Stun, 0
 $PlayerItem: Grenade, Flashbang, 1, Stun, 0
 
@@ -90,7 +90,7 @@ $Inventory E: Grenade, Frag Grenade, 1, Explode, 17
 $Inventory D: MeleeWeapon, Wrench, 2, 2
 $Inventory H: MeleeWeapon, Screwdriver, 2, 2
 $Inventory F: Medicine, Painkillers, 0, 3, 5
-$Inventory F: MeleeWeapon, Multipurpose Knife, 2, 2
+$Inventory F: MeleeWeapon, Multipurpose Knife, 2, 3
 $Inventory M: Weapon, MK-1 Assault Rifle, 7, 20, 60, 60, 3
 $Inventory M: Weapon, MK-1 Shotgun, 5, 10, 20, 30, 5
 $Inventory M: Grenade, Sleep Powder, 1, Sleep, 0
@@ -181,28 +181,29 @@ $Character Z: Black Arms Trader, 110, 15, 25, 10
 $Character Z: Sergeant Autumn, 125, 10, 50, 50
 $Character *: Captain Valkorion, 150, 15, 60, 50
 
+#
+# Inspect definitions; Inspect responses at the end of the file
+#
+
+$Inspect H: Computer
+$Inspect I: Tablet
+$Inspect F: Bodies
+$Inspect T: Weapon Rack
+$Inspect $: Data Logs
+$Inspect $: Tablet
+
+#
+# Lock assignment
+# Going from room X to room Y, describe as #LockFrom L to U
+
+$LockFrom L to U
+$LockFrom N to S
+
 #ADD THREE KEY FRAGMENTS TO UNLOCK ARMOURY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-#Inspect RoomID: Item Name
-
-$Inspect A: Computer
-$Inspect A: Lock
-$Inspect A: Safe
-
-#InspectResponse RoomID:
-# text needs to start at the next line to be properly processed!
-
-$InspectResponse A:
-Computer is blah, blah, ..
-And more blah blah ..
-
-$InspectResponse A:
-Lock is a great thingy!
-
-$InspectResponse A:
-Safe is meh!
-But go for it ...
-
+#
+# Story, Descriptions, Messages
+#
 
 $Story A:
 Freelance Operator #357, this is your mission:
@@ -213,62 +214,62 @@ Operator,
 
 Your starfighter emerges from hyperspace and speeds towards the behemoth of a ship that lies before you. You flick a switch above your head and the lights of your cockpit dim down. Your hands clutch the steering module.
 
-You: Why don’t they send in their own distress crews to investigate?
+You: Why donâ€™t they send in their own distress crews to investigate?
 
 ANG3L: Their last two crews went missing a few hours after they docked with the ship. Hubbard is worried that pirates or mercenaries hijacked the ship and decided to lay low for a while.
 
-You: So I’m bait?
+You: So Iâ€™m bait?
 
-ANG3L: In a sense. We’re approaching the Executor, I’m powering down your fighter. If there are hostiles inside, we don’t want to alert them with a routine docking. You’re gonna have to jump.
+ANG3L: In a sense. Weâ€™re approaching the Executor, Iâ€™m powering down your fighter. If there are hostiles inside, we donâ€™t want to alert them with a routine docking. Youâ€™re gonna have to jump.
 
 You eject from the cockpit of your starfighter and slowly glide towards the rear of the capital ship.
 
-You: Let’s hope there’s no pirates, last thing I want is blood on my new jacket. How’s my stock?
+You: Letâ€™s hope thereâ€™s no pirates, last thing I want is blood on my new jacket. Howâ€™s my stock?
 
-ANG3L: Your standard “Detective Loadout”: fully-loaded ST-1 Pistol, two flash grenades, and your Weaver Knife. Hopefully this is that kind of mission and not a “Full-Scale Assault Loadout” one.
+ANG3L: Your standard â€œDetective Loadoutâ€: fully-loaded ST-1 Pistol, two flash grenades, and your Weaver Knife. Hopefully this is that kind of mission and not a â€œFull-Scale Assault Loadoutâ€ one.
 
-You: Perfect, ANG3L. I’m on the airlock, can you unlock it?
+You: Perfect, ANG3L. Iâ€™m on the airlock, can you unlock it?
 
 The airlock clicks open and you slide in. You fall to the ground as the door shuts and the gravity engages.
 
 You: Once more down the rabbit hole...
 
 $Desc A:
-ANG3L: You’re in the airlock, at the very back of the Executor. There doesn’t seem to be anything here. By the look of these schematics there’s a door to your west, your east, and directly ahead of you (north). Your move, Operator.
+ANG3L: Youâ€™re in the airlock, at the very back of the Executor. There doesnâ€™t seem to be anything here. By the look of these schematics thereâ€™s a door to your west, your east, and directly ahead of you (north). Your move, Operator.
 
 $Desc E:
-ANG3L: Welcome to the cargo bay. The question is where’s all the cargo Hubbard was talking about? I guess you have to figure that out. There doesn’t seem to be much other than a small crate and some packaging. The only exit is the way you came. Your move, Operator.
+ANG3L: Welcome to the cargo bay. The question is whereâ€™s all the cargo Hubbard was talking about? I guess you have to figure that out. There doesnâ€™t seem to be much other than a small crate and some packaging. The only exit is the way you came. Your move, Operator.
 
 $Desc D:
 ANG3L: Schematics show that this is the docking station. Kind of looks like a workshop. There seems to be a few toolboxes lying around. The only exit is the way you came. Your move, Operator.
 
 $Desc B:
-ANG3L: You’re entering the rear hallway. You can go west, east, north, or back to the airlock. The west and east seem to lead to some large rooms, could be the ship’s engines. Your move, Operator.
+ANG3L: Youâ€™re entering the rear hallway. You can go west, east, north, or back to the airlock. The west and east seem to lead to some large rooms, could be the shipâ€™s engines. Your move, Operator.
 
 $Desc H:
-ANG3L: Here lies the west engine room. The engines seem to be in complete shutdown. There seems to be some tools strewn around as if someone left in a hurry. There’s also a computer flickering in the corner, you should inspect it. It could tell us what’s happening here. Only exit is the way you came. Your move, Operator.
+ANG3L: Here lies the west engine room. The engines seem to be in complete shutdown. There seems to be some tools strewn around as if someone left in a hurry. Thereâ€™s also a computer flickering in the corner, you should inspect it. It could tell us whatâ€™s happening here. Only exit is the way you came. Your move, Operator.
 
 $Story I:
 You enter the room and stand in shock.
 
 You: Is that blood on the floor?
 
-ANG3L: Someone put up a fight. Maybe this ship was hijacked after all. Operator, please proceed with caution. Whoever came by here clearly doesn’t take any prisoners.
+ANG3L: Someone put up a fight. Maybe this ship was hijacked after all. Operator, please proceed with caution. Whoever came by here clearly doesnâ€™t take any prisoners.
 
 You: Shoot to kill, got it.
 
 $Desc I:
-ANG3L: You’re in what looks to be the east engine room. The engine in here seems to be damaged by what looks to be bullet holes, maybe the pirates tried to stop the ship and leave it adrift. There seems to be a tablet on the ground, you should check it out. The only exit is the way you came. Your move, Operator.
+ANG3L: Youâ€™re in what looks to be the east engine room. The engine in here seems to be damaged by what looks to be bullet holes, maybe the pirates tried to stop the ship and leave it adrift. There seems to be a tablet on the ground, you should check it out. The only exit is the way you came. Your move, Operator.
 
 $Desc C:
 ANG3L: Schematics say this is the posterior hallway. Every direction seems to have a way to go. Your move, Operator.
 
 $Story F:
-You: You’re seeing this right?
+You: Youâ€™re seeing this right?
 
 ANG3L: As much as my programming can process.
 
-You: This wasn’t sloppy, someone killed these crew members with precision.
+You: This wasnâ€™t sloppy, someone killed these crew members with precision.
 
 ANG3L: Skilled pirates? If such a thing exists.
 
@@ -277,19 +278,19 @@ You move towards the bodies and inspect the wounds.
 You: No this is more precise. Whoever did this was trained more than shooting bottles out in a field.
 
 $Desc F:
-ANG3L: This is the west crew quarter. Hopefully the lunch you had has settled. The victims of this bloodbath seem to be crew members judging by their red outfits, you should check their bodies for something relevant. Your move, Operator.
+ANG3L: This is the east crew quarter. Hopefully the lunch you had has settled. The victims of this bloodbath seem to be crew members judging by their red outfits, you should check their bodies for something relevant. Your move, Operator.
 
 $Desc G:
-ANG3L: You’re entering the east crew quarters. There doesn’t seem to be much here, other than a message carved into one of the mattresses that reads: TRUST NO ONE. Probably a practical joke… I hope. Your move, Operator.
+ANG3L: Youâ€™re entering the west crew quarters. There doesnâ€™t seem to be much here, other than a message carved into one of the mattresses that reads: TRUST NO ONE. Probably a practical jokeâ€¦ I hope. Your move, Operator.
 
 $Story J:
-You: Door’s locked, ANG3L.
+You: Doorâ€™s locked, ANG3L.
 
-ANG3L: Working on it. This is sealed tight, whoever did this clearly didn’t want anyone going to whatever’s behind this door.
+ANG3L: Working on it. This is sealed tight, whoever did this clearly didnâ€™t want anyone going to whateverâ€™s behind this door.
 
 Suddenly, an alarm begins to blare as the door starts to beep.
 
-ANG3L: Shit, that wasn’t supposed to happen. I must have tripped the locking mechanism. Whoever’s aboard this ship knows we’re here. Keep your gun close, you might face some resistance.
+ANG3L: Shit, that wasnâ€™t supposed to happen. I must have tripped the locking mechanism. Whoeverâ€™s aboard this ship knows weâ€™re here. Keep your gun close, you might face some resistance.
 
 You: Is there anything you can do about that alarm?
 
@@ -297,43 +298,43 @@ ANG3L: Working on it! Screw Stellaris Tech and their neocarbon locks. This shoul
 
 The blaring alarm shuts down completely.
 
-You: I’m no engineer, ANG3L, but I don’t think that should have sounded if there was no power.
+You: Iâ€™m no engineer, ANG3L, but I donâ€™t think that should have sounded if there was no power.
 
 ANG3L: Fair point, Operator. Keep your eyes and ears peeled. This keeps getting weirder and weirder.
 
 $Desc J:
-ANG3L: You’re in the interior hallway. You should be approaching the centre of this ship now. My database doesn’t show any schematics for the rest of the ship, the Executor must be a newer model. I’m tapping into your HUD Camera. My guess is you can go in whichever direction you please. You’re the navigator from now on. Your move, Operator.
+ANG3L: Youâ€™re in the interior hallway. You should be approaching the centre of this ship now. My database doesnâ€™t show any schematics for the rest of the ship, the Executor must be a newer model. Iâ€™m tapping into your HUD Camera. My guess is you can go in whichever direction you please. Youâ€™re the navigator from now on. Your move, Operator.
 
 $Desc M:
 ANG3L: Looks like some kind of storage room. Those crates could contain ammo or weapons. Your move, Operator.
 
 $Story P:
-ANG3L: Operator! In the corner, there’s a crew member!
+ANG3L: Operator! In the corner, thereâ€™s a crew member!
 
 You rush over to a crew member crouched in the corner, trying to remain out of sight from the doors.
 
 You: Are you alright?
 
-Crew Member: You’re one of them aren’t you? Just get it over with.
+Crew Member: Youâ€™re one of them arenâ€™t you? Just get it over with.
 
-You: I’m a freelance operator hired to find out what happened to the Executor. What’s your name?
+You: Iâ€™m a freelance operator hired to find out what happened to the Executor. Whatâ€™s your name?
 
-Alonso: I’m Alonso. I guess you’re here for whatever cargo was worth killing O’Brien, Harry, and the others over.
+Alonso: Iâ€™m Alonso. I guess youâ€™re here for whatever cargo was worth killing Oâ€™Brien, Harry, and the others over.
 
-You: I’m here to find out what happened to it, do you know anything?
+You: Iâ€™m here to find out what happened to it, do you know anything?
 
-Alonso: You think they would tell some random worker like me what was so important that they had to use a capital ship to transport it? You need to leave, if they hear us talking they’ll kill us. Whatever you do, shoot first ask questions later. I know these people and they aren’t looking to talk.
+Alonso: You think they would tell some random worker like me what was so important that they had to use a capital ship to transport it? You need to leave, if they hear us talking theyâ€™ll kill us. Whatever you do, shoot first ask questions later. I know these people and they arenâ€™t looking to talk.
 
 $Desc P:
-ANG3L: It’s like you never left your cubicle. This looks like the offices. It seems that all of the computers were smashed or destroyed. I would check to make sure though. Your move, Operator.
+ANG3L: Itâ€™s like you never left your cubicle. This looks like the offices. It seems that all of the computers were smashed or destroyed. I would check to make sure though. Your move, Operator.
 
 $Desc Q:
-ANG3L: If you’re hungry you could prepare yourself a meal in the kitchen. These drawers could have something if you’re lucky. Your move, Operator.
+ANG3L: If youâ€™re hungry you could prepare yourself a meal in the kitchen. These drawers could have something if youâ€™re lucky. Your move, Operator.
 
 $Story K:
-You walk into the large cafeteria. The lights flicker as you hear a faint conversation. You can see them, but they can’t see you. You take cover behind one of the tables and clutch your weapon.
+You walk into the large cafeteria. The lights flicker as you hear a faint conversation. You can see them, but they canâ€™t see you. You take cover behind one of the tables and clutch your weapon.
 
-ANG3L: Peak over so I can get a reading. They’re wearing crew uniforms, ask them if they know what happened to the cargo.
+ANG3L: Peak over so I can get a reading. Theyâ€™re wearing crew uniforms, ask them if they know what happened to the cargo.
 
 You start to walk down the main aisle of the cafeteria.
 
@@ -343,85 +344,84 @@ ANG3L: Operator!
 
 Three crew members whirl around and begin firing at you with powerful rifles. You scrambled to cover as you flip over one of the tables next to you and return fire.
 
-You: I’m not here to kill you! I was sent to find out what happened to the cargo aboard.
+You: Iâ€™m not here to kill you! I was sent to find out what happened to the cargo aboard.
 
-Armed Crew Member: Then that’s even more reason to kill you. Spread out men, he’s an operator, kill him at all costs!
+Armed Crew Member: Then thatâ€™s even more reason to kill you. Spread out men, heâ€™s an operator, kill him at all costs!
 
 ANG3L: Operator, you have no choice but to kill them!
 
 $Desc K:
-ANG3L: Looks like the cafeteria. Although I don’t think anyone will be eating here knowing that there’s bodies and blood covering some of the tables. Maybe it’s time for a gear upgrade.
+ANG3L: Looks like the cafeteria. Although I donâ€™t think anyone will be eating here knowing that thereâ€™s bodies and blood covering some of the tables. Maybe itâ€™s time for a gear upgrade.
 
 You: Thanks, but I already look good.
 
-ANG3L: My programming can’t process your ‘humour” enough to return a laugh. Your move, Operator.
+ANG3L: My programming canâ€™t process your â€˜humourâ€ enough to return a laugh. Your move, Operator.
 
 $Story N:
 You enter a small room with a large vault door on the wall. You hear murmuring echoing across the dark room. Your only source of light is a sparking electrical wire which flashes every few seconds.
 
-ANG3L: There’s guards, probably like the ones from the cafeteria. Hopefully we can get that vault open.
+ANG3L: Thereâ€™s guards, probably like the ones from the cafeteria. Hopefully we can get that vault open.
 
 You creep forward to a small piece of cover and open fire on the guards. They scramble and fire at you with their rifles.
 
 $Desc N:
-ANG3L: These vault doors must be protecting something important if they’re using three step locks. No way to break through it, hopefully this three step lock has its keys nearby. Your move operator.
+ANG3L: These vault doors must be protecting something important if theyâ€™re using three step locks. No way to break through it, hopefully this three step lock has its keys nearby. Your move operator.
 
 $Message N:
-ANG3L: Sorry, Operator, we don’t have the components to get through the locking mechanism.
+ANG3L: Sorry, Operator, we donâ€™t have the components to get through the locking mechanism.
 
 $Desc S:
-ANG3L: I’ve never seen so much weaponry and ammunition all in one place. I take that back, I’ve seen your apartment. Go wild, Operator.
+ANG3L: Iâ€™ve never seen so much weaponry and ammunition all in one place. I take that back, Iâ€™ve seen your apartment. Go wild, Operator.
 
 $Desc L:
-ANG3L: That door at the end of the hall looks like it leads to another part of the ship. It doesn’t look hackable, we’re gonna need a way to get through. Your move, Operator.
+ANG3L: That door at the end of the hall looks like it leads to another part of the ship. It doesnâ€™t look hackable, weâ€™re gonna need a way to get through. Your move, Operator.
 
 $Message L:
-ANG3L: It looks like the door is locked using a card reader. I don’t think you’ve found one yet.
+ANG3L: It looks like the door is locked using a card reader. I donâ€™t think youâ€™ve found one yet.
 
 $Story R:
 You slowly enter the medical bay after dismantling a lock and crouch behind a bed.
 
 You: I hear footsteps, could be more of the rogue crew members.
 
-ANG3L: They’re wearing different garments than the engineers and gunmen. They look like doctors and scientists.
+ANG3L: Theyâ€™re wearing different garments than the engineers and gunmen. They look like doctors and scientists.
 
-You: Why’d they lock themselves in?
+You: Whyâ€™d they lock themselves in?
 
-ANG3L: Why do you think? There’s gunmen running around these halls killing anyone that’s not with them. They’re doctors, you should be safe.
+ANG3L: Why do you think? Thereâ€™s gunmen running around these halls killing anyone thatâ€™s not with them. Theyâ€™re doctors, you should be safe.
 
-Doctor: What the hell! There’s someone in here! They found us! Defend yourselves at all cost!
+Doctor: What the hell! Thereâ€™s someone in here! They found us! Defend yourselves at all cost!
 You walk out from the bed and raise your weapon in the air.
 
 You: Please I mean you no harm.
 
-Biologist: They’re trying compassion now, how ironic.
+Biologist: Theyâ€™re trying compassion now, how ironic.
 
-The Doctor, Biologist, and Nurse charge at you with a scalpel, a bone saw, and a drill.
+The Doctor, Biologist, and Surgeon charge at you with a scalpel, a bone saw, and a drill.
 
-ANG3L: It looks like they can’t be reasoned with, you have no choice but to fight back.
+ANG3L: It looks like they canâ€™t be reasoned with, you have no choice but to fight back.
 
 $Desc R:
-ANG3L: Jackpot. This medical bay looks stocked with equipment we could use. It’s too bad we had a misunderstanding with those scientists. Your move, Operator.
+ANG3L: Jackpot. This medical bay looks stocked with equipment we could use. Itâ€™s too bad we had a misunderstanding with those scientists. Your move, Operator.
 
 $Story T:
 You walk into a small room with prison capsules lining the halls. A loud banging and delusional screaming rings out from one of the rear cells. You go to investigate.
 
-Prisoner: Please sir, please feed me! I haven’t eaten in over three days! It’s hell in here!
+Prisoner: Please sir, please feed me! I havenâ€™t eaten in over three days! Itâ€™s hell in here!
 
-You: Can you tell me what’s been happening aboard the ship this last week?
+You: Can you tell me whatâ€™s been happening aboard the ship this last week?
 
 Prisoner: I need food, then I talk.
 
-FEED PRISONER
+You search your pockets and give the prisoner a granola bar you forgot about.
 
-$Story T:
-Prisoner: T-Thank you so much. I don’t know what happened, but it started a few days ago. The captain of the ship came into this room and whispered something to the guards. They ran in and took their weapons, left with the captain, and locked the door behind them. Shortly after all the lights went out and we stopped moving. Since then I’ve only heard silence-
+Prisoner: T-Thank you so much. I donâ€™t know what happened, but it started a few days ago. The captain of the ship came into this room and whispered something to the guards. They ran in and took their weapons, left with the captain, and locked the door behind them. Shortly after all the lights went out and we stopped moving. Since then Iâ€™ve only heard silence-
 
 You: What about gunfire?
 
 Prisoner: I was getting to that. There was a lot the day that the lights went out. Ever since then there was less and less up until today. I assume that was you though.
 
-ANG3L: I don’t think he knows much more than that.
+ANG3L: I donâ€™t think he knows much more than that.
 
 You: Thank you for your help.
 
@@ -429,31 +429,31 @@ Prisoner: Wait! Please let me go. I can fight for you.
 
 You: Can we do that, ANG3L?
 
-ANG3L: The power’s out so we can’t get through these blast doors. Tell him we’ll come back for him.
+ANG3L: The powerâ€™s out so we canâ€™t get through these blast doors. Tell him weâ€™ll come back for him.
 
 You say your goodbyes to the prisoner and he goes back to the corner of his cell.
 
 $Desc T:
-ANG3L: This prison’s nicer than the one you were in a few years ago.
+ANG3L: This prisonâ€™s nicer than the one you were in a few years ago.
 
-You: Don’t remind me.
+You: Donâ€™t remind me.
 
-ANG3L: Could be some stuff worth checking out here. There’s seems to be a cataloguing weapon rack in the back, could have some activity logs. Your move, Operator.
+ANG3L: Could be some stuff worth checking out here. Thereâ€™s seems to be a cataloguing weapon rack in the back, could have some activity logs. Your move, Operator.
 
-$Story S:
+$Story O:
 ANG3L: Operator! What was that?
 
 You: Someone flushed the toilet.
 
 You hide around a wall and wait for the person to leave the stall. You hear the clanking of a gun and armor as they leave.
 
-You: It’s one of them!
+You: Itâ€™s one of them!
 
 Soldier: Who the hell are you?
 
 You charge the soldier and pin him against the wall, he fights back.
 
-$Story2 S:
+$Story2 O:
 You wipe the blood off your mouth, panting loudly.
 
 ANG3L: That was close. You should brush up on your hand-to-hand combat.
@@ -462,22 +462,22 @@ You: Funny.
 
 A small wrist device on the dead soldier starts beeping.
 
-Device: Soldier report in. This is the captain. It’s starting, have you taken care of the intruder?
+Device: Soldier report in. This is the captain. Itâ€™s starting, have you taken care of the intruder?
 
-ANG3L: Operator! Why would the captain be allied with the soldiers? That’s not important now, reply back! He’ll call off his goons.
+ANG3L: Operator! Why would the captain be allied with the soldiers? Thatâ€™s not important now, reply back! Heâ€™ll call off his goons.
 
 You: Reporting in captain, the intruder was taken care of.
 
-Device: Good. Get to the bridge, it’s starting soon.
+Device: Good. Get to the bridge, itâ€™s starting soon.
 
 The device clicks and shuts off.
 
-ANG3L: What does the captain have to do with these rogue crew members? Unless…
+ANG3L: What does the captain have to do with these rogue crew members? Unlessâ€¦
 
-You: It’s him versus us.
+You: Itâ€™s him versus us.
 
 $Desc O:
-ANG3L: If you have to relieve yourself now’s the time, I’ll look away. Unless you want soap, I don’t think there’s much else in here besides the soldier’s corpse.
+ANG3L: If you have to relieve yourself nowâ€™s the time, Iâ€™ll look away. Unless you want soap, I donâ€™t think thereâ€™s much else in here besides the soldierâ€™s corpse.
 
 You: Way to be blunt.
 
@@ -486,11 +486,11 @@ ANG3L: Your move, Operator.
 $Story U:
 You swipe the keycard and walk through the door. Suddenly, the lights turn on and a load hum starts sounding.
 
-ANG3L: The power’s back on. Something must be going on. We should hurry. I hope my readings are wrong, but hyperspace charts show that a small ship is quickly approaching us.
+ANG3L: The powerâ€™s back on. Something must be going on. We should hurry. I hope my readings are wrong, but hyperspace charts show that a small ship is quickly approaching us.
 
 Intercom: Engaging docking procedure. East forward airlock engaging hull grip.
 
-You: Someone’s boarding the Executor!
+You: Someoneâ€™s boarding the Executor!
 
 ANG3L: Could be another distress crew.
 
@@ -498,12 +498,12 @@ $Desc U:
 ANG3L: Looks like an important hallway that connects most of the ship. Your move, Operator.
 
 $Desc #:
-ANG3L: We seem to be moving towards the west forward airlock. You’re in some sort of narrow hallway right now. There’s some corpses lying about, could be some of the distress crew. Your move, Operator.
+ANG3L: We seem to be moving towards the west forward airlock. Youâ€™re in some sort of narrow hallway right now. Thereâ€™s some corpses lying about, could be some of the distress crew. Your move, Operator.
 
 $Desc &:
 ANG3L: Looks like the edge of the west side of the Executor. More specifically, an airlock.
 
-You: What all these manuals and first aid kits.
+You: What are all these manuals and first aid kits.
 
 ANG3L: Could be an escape pod of some sort. Your move, Operator.
 
@@ -514,23 +514,23 @@ You: ANG3L, I think this is a hostile takeover.
 
 ANG3L: Stop talking, their helmets could have signal detection.
 
-Armoured Mercenary 1: Does anyone know where we’re going?
+Armoured Mercenary 1: Does anyone know where weâ€™re going?
 
 Armoured Mercenary 2: Sergeant Autumn said the message told us to go to the bridge. Autumn wants us to keep are weapons primed, in case the deal goes south.
 
 You: Deal?! What are they talking about?
 
-Armoured Trader 1: My helmets picking up something  in this hall!
+Armoured Trader 1: My helmets picking up something in this hall!
 
 Armoured Trader 2: Over there, he looks freelance. Shoot him!
 
 The Traders begin unloading clips at your hiding spot, slowly advancing.
 
 $Desc X:
-ANG3L: We’re going towards the east forward airlock, that’s where the ship docked! We’re in what looks to be a hallway connecting us with the airlock. Proceed with caution, there could be more traders. Your move, Operator.
+ANG3L: Weâ€™re going towards the east forward airlock, thatâ€™s where the ship docked! Weâ€™re in what looks to be a hallway connecting us with the airlock. Proceed with caution, there could be more traders. Your move, Operator.
 
 $Desc @:
-ANG3L: East end of the ship. The door’s completely blocked, we can’t board Autumn’s’ ship. Your move, Operator.
+ANG3L: East end of the ship. The doorâ€™s completely blocked, we canâ€™t board Autumnâ€™sâ€™ ship. Your move, Operator.
 
 $Desc V:
 ANG3L: This seems to be the way to the bridge. We look to be in some sort of branching hallway. Your move, Operator.
@@ -538,52 +538,53 @@ ANG3L: This seems to be the way to the bridge. We look to be in some sort of bra
 $Story Y:
 You creep up behind a small group of marching soldiers.
 
-You: The mercenaries are walking towards where we’re going.
+You: The mercenaries are walking towards where weâ€™re going.
 
-ANG3L: Judging by what they said at the east hallway, they’re here for some sort of transaction.
+ANG3L: Judging by what they said at the east hallway, theyâ€™re here for some sort of transaction.
 
-You: The cargo…
-Black Arms Trader: Autumn’s waiting at the security station. We should keep up. Can’t wait for all this shit to be over.
+You: The cargoâ€¦
+
+Black Arms Trader: Autumnâ€™s waiting at the security station. We should keep up. Canâ€™t wait for all this shit to be over.
 
 ANG3L: Operator, shoot!
 
 You run after them and begin to fire.
 
 $Desc Y:
-ANG3L: Hopefully you aren’t claustrophobic. This is a pretty small corridor on the east side of the ship. It looks like it leads to whatever these traders were talking about. Your move, Operator.
+ANG3L: Hopefully you arenâ€™t claustrophobic. This is a pretty small corridor on the east side of the ship. It looks like it leads to whatever these traders were talking about. Your move, Operator.
 
 $Desc $:
-ANG3L: This is it. It’s the Captain’s Quarter’s. His room is full of logs and tablets. This could finally give us some closure on what’s been going on. Your move, Operator.
+ANG3L: This is it. Itâ€™s the Captainâ€™s Quarterâ€™s. His room is full of data logs and tablets. This could finally give us some closure on whatâ€™s been going on. Your move, Operator.
 
 $Story W:
-ANG3L: This is it. We’re in the hallway leading to the bridge. Whatever’s behind those doors could be the end of our mission.
+ANG3L: This is it. Weâ€™re in the hallway leading to the bridge. Whateverâ€™s behind those doors could be the end of our mission.
 
-You run to a piece of cover before the Captain’s rogue guards can see you. You ready your weapon.
+You run to a piece of cover before the Captainâ€™s rogue guards can see you. You ready your weapon.
 
 You: Hopefully this is the last time I have to use this piece of shit.
 
 You open fire.
 
 $Desc W:
-ANG3L: Welcome to the bridge doors. I can sense your heart rate racing. It’s OK: I’m here. Your move, Operator.
+ANG3L: Welcome to the bridge doors. I can sense your heart rate racing. Itâ€™s OK: Iâ€™m here. Your move, Operator.
 
 $Story Z:
 You stay close to the wall of the security station, carefully listening to the conversing Black Arms Traders inside.
 
-Autumn: I want two of you with me while we make the deal and one of you to stand outside guarding the doors. This is to be a swift deal, and we’re back to Delta Base.
+Autumn: I want two of you with me while we make the deal and one of you to stand outside guarding the doors. This is to be a swift deal, and weâ€™re back to Delta Base.
 
 Black Arms Trader: Full gear on, boys. Stellaris Tech probably knows something's up, we need to hurry. You ready, Autumn?
 
 Autumn: For Onyx Company! Once this deal is complete, we can set our final plan into motion.
 
-You: ANG3L, I’m going in to ambush them. Whatever’s going down here, this “Autumn” is behind it. He’s the key.
+You: ANG3L, Iâ€™m going in to ambush them. Whateverâ€™s going down here, this â€œAutumnâ€ is behind it. Heâ€™s the key.
 
-ANG3L: Please don’t do something stupid, Operator.
+ANG3L: Please donâ€™t do something stupid, Operator.
 
-You charge into the room and dive, opening fire on the heavily armoured soldiers. Autumn brandishes to powerful pistols and its bullets tear into the cover you’re behind.
+You charge into the room and dive, opening fire on the heavily armoured soldiers. Autumn brandishes to powerful pistols and its bullets tear into the cover youâ€™re behind.
 
 $Story2 Z:
-Autumn: You stupid son of a bitch. You’ll never understand the caliber of what you’ve done. The Onyx Company are the good guys. You’re a slave to Stellaris Tech, you just don’t know it yet.
+Autumn: You stupid son of a bitch. Youâ€™ll never understand the caliber of what youâ€™ve done. The Onyx Company are the good guys. Youâ€™re a slave to Stellaris Tech, you just donâ€™t know it yet.
 
 You pull out your weapon and kill Autumn.
 
@@ -592,20 +593,20 @@ ANG3L: What was he talking about?
 You: We can figure that out later, right now we need to go.
 
 $Desc Z:
-ANG3L: It looks like this was where the rogue crew members operated from. It must’ve started from here: The security station. Your move, Operator.
+ANG3L: It looks like this was where the rogue crew members operated from. It mustâ€™ve started from here: The security station. Your move, Operator.
 
 $Story *:
 The doors open to the bridge and you slowly sneak up a short ramp, facing the back of a prominent figure. The figure stands, gazing out at a large planet close to the ship.
 
-Captain: Autumn, it’s about time. I have the Nanite Capsule.
+Captain: Autumn, itâ€™s about time. I have the Nanite Capsule.
 
 ANG3L: Operator, that must have been the cargo Hubbard was talking about. Proceed with caution, the captain seems to be highly dangerous.
 
 The captain whips around. He quickly draws his holstered pistol and aims it at you. You raise your weapon.
 
-Captain: So you made it here after all. That trick with the communicator device was smart, I actually believed they killed you. I assume you took care of Autumn, which is probably for the better. That crazy bastard…
+Captain: So you made it here after all. That trick with the communicator device was smart, I actually believed they killed you. I assume you took care of Autumn, which is probably for the better. That crazy bastardâ€¦
 
-You: What’s the meaning of this?! You turned your own crew against it self.
+You: Whatâ€™s the meaning of this?! You turned your own crew against it self.
 
 Captain: No, this did.
 
@@ -614,7 +615,7 @@ Captain: This is what Hubbard wanted me to transport. The latest super weapon wh
 
 You: And you were gonna sell it?! To th-those mercenaries?
 
-Captain: Don’t be so naive. The Onyx Company is anything but. They prefer the term “Freedom Fighters”.
+Captain: Donâ€™t be so naive. The Onyx Company is anything but. They prefer the term â€œFreedom Fightersâ€.
 
 You: What happened to the crew?
 
@@ -624,77 +625,77 @@ Captain: What about them? The security personnel and trained guards were in on t
 
 You: So they slaughtered each other for profit.
 
-Captain: This isn’t just profit! This is about Hubbard and what he was going to do with it! You operators have no sense, you just get hired to do whatever and you blindly trust whomever hired you.
+Captain: This isnâ€™t just profit! This is about Hubbard and what he was going to do with it! You operators have no sense, you just get hired to do whatever and you blindly trust whomever hired you.
 
 ANG3L: How does Hubbard tie into this?
 
 You: You slaughtered innocent people!
 
-Captain: If only you could see that that’s what Hubbard was going to do. Only on a much larger scale.
+Captain: If only you could see that thatâ€™s what Hubbard was going to do. Only on a much larger scale.
 
 You: Scum! You and your lies die today!
 
 You combat roll away from the ramp and open fire. The Captain hides behind a small computer and returns fire.
 
 $Story2 *:
-Captain: Well played, Operator. You think you’ve won today, but you can’t see the storm that’s brewing around you like I can.
+Captain: Well played, Operator. You think youâ€™ve won today, but you canâ€™t see the storm thatâ€™s brewing around you like I can.
 
-You raise your weapon and aim it at the Captain’s head.
+You raise your weapon and aim it at the Captainâ€™s head.
 
-Captain: A captain always goes down with his ship… But if I die today, so do you!
+Captain: A captain always goes down with his shipâ€¦ But if I die today, so do you!
 
 He reaches the command unit above him and slams a button down, locking a steering module in place. You empty your clip into him and grab the small capsule on his belt.
 
-You: ANG3L, it’s done.
+You: ANG3L, itâ€™s done.
 
 ANG3L: Not yet, Operator! Look!
 
 Suddenly the engines power on and the ship roars to life. The Executor swiftly lurks forward toward the planet ahead.
 
-You: ANG3L! What’s the collision data?
+You: ANG3L! Whatâ€™s the collision data?
 
-ANG3L: Operator, I’m not sure. Judging by the speed of the ship, 1 minute.
+ANG3L: Operator, Iâ€™m not sure. Judging by the speed of the ship, 1 minute.
 
-You fall to your knees as the ship collides with a small rock. The Executor thrusts you forward as the rock detaches Autumn’s ship, sending it adrift into space.
+You fall to your knees as the ship collides with a small rock. The Executor thrusts you forward as the rock detaches Autumnâ€™s ship, sending it adrift into space.
 
-ANG3L: Operator! You have a minute to abandon ship before the Executor begins burning up in the planet’s atmosphere. Hurry!
+ANG3L: Operator! You have a minute to abandon ship before the Executor begins burning up in the planetâ€™s atmosphere. Hurry!
 
 $Ending1:
 You put on your visor as you open the rear airlock of the ship.
 
-ANG3L: You have to jump, we didn’t dock the starfighter when we came.
+ANG3L: You have to jump, we didnâ€™t dock the starfighter when we came.
 
 You slowly back up and get a running start. You leap out of the airlock, gliding towards your ship. Pieces of the Executor start being ripped off and sent off into the surrounding space.
 
 You desperately try to get ahold of one of the maintenance handles of your starfighter, but your fingers lose their grasp.
 
-ANG3L: I’m opening the cockpit!
+ANG3L: Iâ€™m opening the cockpit!
 
 You frantically get ahold of the moving cockpit and enter your starfighter. It comes to life.
 
 ANG3L: Engines full power!
 
-Your starfighter’s engines roar to life and shoot away from the burning rubble of the Executor.
+Your starfighterâ€™s engines roar to life and shoot away from the burning rubble of the Executor.
 
 You: That was too close.
 
-ANG3L: We’re clear of the planet. Charting a course to your base.
+ANG3L: Weâ€™re clear of the planet. Charting a course to your base.
 
 You: Cancel that. I think we need to visit an old friend and ask about Hubbard.
 
 ANG3L: You believe the Captain?
 
-You: It’s worth checking out.
+You: Itâ€™s worth checking out.
 
 ANG3L: Are you -zzzzt-
 
 You: ANG3L? What happened?
 
-You tap the earpiece you’re wearing.
+You tap the earpiece youâ€™re wearing.
 
-Voice: Tread carefully, you have no idea what you’re getting into.
+Mysterious Voice: Tread carefully, you have no idea what youâ€™re getting into.
 
-ANG3L: Engaging hyperdrive.
+ANG3L: -zzzzt- Engaging hyperdrive.
 
 You reel back in your chair, puzzled at what just occurred.
 
@@ -715,7 +716,7 @@ ANG3L: Operator, how are you going to get yourself out of this one?
 
 $Ending3:
 
-Your body slams into a wall as the Executor enters the atmosphere. You desperately clutch a small nook in the wall, trying not to lose grip as parts of the ship slowly break apart around you.
+Your body slams into a wall as the Executor enters the atmosphere of the planet. You desperately clutch a small nook in the wall, trying not to lose grip as parts of the ship slowly break apart around you.
 
 ANG3L: Operator, you need to brace for impact!
 You roll into another room, clutching onto a bolted piece of furniture. The room next to you rips off of the Executor and flies out into the atmosphere of the planet.
@@ -728,6 +729,60 @@ You close your eyes and take out your earpiece, hoping to have your last moments
 
 ANG3L: Ten seconds.
 
-Your back slides down the wall and you sit with your weapon between your legs. Your eyes tune out the scene of the Executor slowly breaking apart upon its entry to the planet’s surface. You remove a picture out of an inner pocket of your jacket. A single tear falls from your face as the room around you collides with the surface of the desolate planet.
+Your back slides down the wall and you sit with your weapon between your legs. Your eyes tune out the scene of the Executor slowly breaking apart upon its entry to the planetâ€™s surface. You remove a picture out of an inner pocket of your jacket. A single tear falls from your face as the room around you collides with the surface of the desolate planet.
 
 ~END~
+
+#
+# Inspect responses
+#
+
+$InspectResponse H:
+The computer comes to life. The first document you see is: DATA ENTRIES. You open the document.
+
+JOURNAL ENTRY 355: Tests from DAY 354 proved conclusive, I will tell the Captain once Pod 18 germinates and Pod 27 produces growth reliable enough to create a conclusion from. Pod 28 has missed a day of nutrient supply, Neil hasnâ€™t returned to his station for a while, starting to be suspicious heâ€™s using again.
+
+JOURNAL ENTRY 356: Pods 28-35 have not met their nutrient supply requirements, the scientists in charge of that are missing. I have thought about contacting the Captain, but he
+
+JOURNAL ENTRY 357: Mass power outage among the ship, all experiments ruin. It seems that I am the last remaining scientist and that there is something or someone killing off my fellow team. I need to lay low, this will be my last entry for a while.
+
+$InspectResponse I:
+You power on the tablet and notice the logs that show up on the screen:
+
+LOG 35: The chief engineer says that the engines are acting up again and weâ€™re to be on around the clock inspecting whatâ€™s been happening to it. The actuator seems to be the problem, but my bets on the pistons. The number of guards has increased in this area. It seems like theyâ€™re searching for something, but weâ€™re not sure what.
+
+$InspectResponse F:
+You search through the bodies of the crew members lying through the ground.
+
+You: This wasnâ€™t just one person, it was several. You can tell by the variety of ammunition used.
+
+ANG3L: Who were they as crew members?
+
+You pick up a name tag from one of the bodies.
+
+You: Oâ€™Brien Henderson, Chief Engineer. I guess that answers that question.
+
+$InspectResponse T:
+You scroll through the dates and times that each weapon was signed out.
+
+You: They were consistently signed in and out prior to a few days ago.
+
+ANG3L: What happened after a few days ago?
+
+You: A lot of these weapons were signed out and were never signed back inâ€¦
+
+$InspectResponse $:
+You quickly power on each of the Data Logs you find and read through them quickly:
+
+DATA LOG 1: The armed guards are taking care of the rest of the crew. Hubbard wonâ€™t suspect us if the ship goes offline and drifts until the Onyx Company arrives.
+
+DATA LOG 2: Onyx Company is almost ready to dock. Autumn better not try to screw me over. These distress crews keep coming as fast as we dispose of them. Hopefully Hubbard and his backstabbing employees will give up. I might have to send him aâ€¦ personalized message.
+
+DATA LOG 3: Someoneâ€™s here. I donâ€™t think itâ€™s another distress crew, their starfighter looked different. Could be freelance. All my guards are stationed ready to take him out. Hopefully theyâ€™re competent enough to deal with this intrusion before Autumn arrives.
+
+DATA LOG 4: Heâ€™s been taken care of, just in time for Autumnâ€™s arrival. Things seem to be running smoothly.
+
+$InspectResponse $:
+You boot up a tablet in the Captainâ€™s Quarters and read the first entry:
+
+ONYX COMPANY PROFILE: The Onyx Company, known as the Freedom Fights of Vega by the citizens of the Vega Cluster and known as Vegaâ€™s Devils by the authorities. Formed six years ago during the civil war of the Omega regions, they fought to liberate the system against the Defenders and have since been a considered a controversial group due to their use of extreme force. Known for committing massacres and other war crimes, they have since been placed on the Defendersâ€™ most wanted list.

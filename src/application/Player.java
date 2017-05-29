@@ -54,6 +54,49 @@ public class Player {
 		this.playerInventory = playerInventory;
 	}
 
+	/**
+	 * Check if the player has the key for the specified room
+	 *
+	 * @param roomID
+	 * @return
+	 */
+	public boolean hasKeyForRoom(String roomID) {
+		for (Item item : this.playerInventory.getInventory()) {
+			if (item.getType() == ItemType.ITEM_TYPE_KEYS) {
+				Keys keys = (Keys)item;
+				if (keys.getRoom().equalsIgnoreCase(roomID)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public void incrementHealth(int heal) {
+		this.health += heal;
+	}
+
+	public void decrementHealth(int damage) {
+		Armour armour = this.getUsableArmour();
+		if (armour != null) this.health -= armour.reduce(damage);
+		else this.health -= damage;
+	}
+
+	public Armour getUsableArmour() {
+		for (Item i : this.getPlayerInventory().getInventory()) {
+			if (i.getType() == ItemType.ITEM_TYPE_ARMOUR && i.isActive()) return (Armour) i;
+		}
+		return null;
+	}
+
+	public boolean isAlive() {
+		return this.health > 0;
+	}
+
+	/**
+	 * toString()
+	 */
 	public String toString(){
 
 		String print = String.format("Health: %d, Capacity: %d%n", health, capacity);

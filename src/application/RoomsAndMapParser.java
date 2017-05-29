@@ -4,10 +4,12 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +38,7 @@ public class RoomsAndMapParser {
 	private static final int PARSE_PLAYER = 11;
 	private static final int PARSE_INSPECT = 12;
 	private static final int PARSE_INSPECT_RESPONSE = 13;
+	private static final int PARSE_LOCK = 14;
 
 	public RoomsAndMapParser(String fileName) {
 		this.fileName = fileName;
@@ -59,7 +62,8 @@ public class RoomsAndMapParser {
     	try
 		{
 			// open text file for parsing
-            br = new BufferedReader(new FileReader(this.fileName));
+    		br = new BufferedReader(new InputStreamReader(new FileInputStream(this.fileName), "UTF-8"));
+            //br = new BufferedReader(new FileReader(this.fileName));
 
             int lineNo = 0;
             String line = null;
@@ -149,6 +153,17 @@ public class RoomsAndMapParser {
             			placeCharacter(currentRoom.toUpperCase(), character);
             		}
             	}
+            	else if (line.trim().startsWith("$LockFrom ")) {
+
+            		parsingSection = PARSE_LOCK;
+            		currentRoom = whatRoom(line);
+
+            		int index = -1;
+            		if ((index = line.indexOf(" to ")) > -1) {
+            			String goToRoom = line.substring(index + 4).trim();
+            			this.lockRoomMap.put(currentRoom.toUpperCase(), goToRoom.toUpperCase());
+            		}
+            	}
             	else if (line.trim().startsWith("$Desc ")) {
 
             		// this is just to avoid repeating similar code; only one of the collections will be populated by parsed text (textBuffer)
@@ -212,6 +227,9 @@ public class RoomsAndMapParser {
             }
 
             br.close();
+
+            // just in case if the text buffer has still some data
+    		fillTextBuffer(parsingSection, currentRoom, textBuffer);
 
             // PARSE: vertical and horizontal lines of the map
             this.completeHorizontalMapProcess(charMap);
@@ -325,7 +343,7 @@ public class RoomsAndMapParser {
 		Item item = null;
 
 		if ("Item".equals(arr[0].trim())) {
-			item = new Item(arr[1].trim(), Integer.parseInt(arr[2].trim()));
+			item = new Item(arr[1].trim(), Integer.parseInt(arr[2].trim()), ItemType.ITEM_TYPE_NONE);
 		}
 		else if ("Weapon".equals(arr[0].trim())) {
 			item = new Weapon(arr[1].trim(), Integer.parseInt(arr[2].trim()),
@@ -420,6 +438,9 @@ public class RoomsAndMapParser {
 		else if ((index = line.indexOf("$Character ")) > -1 && (endIndex = line.indexOf(":", index + 10)) > -1) {
 			return line.substring(index + 10, endIndex).trim();
 		}
+		else if ((index = line.indexOf("$LockFrom ")) > -1 && (endIndex = line.indexOf(" to ", index + 9)) > -1) {
+			return line.substring(index + 9, endIndex).trim();
+		}
 		else if ((index = line.indexOf("$Inspect ")) > -1 && (endIndex = line.indexOf(":", index + 8)) > -1) {
 			return line.substring(index + 8, endIndex).trim();
 		}
@@ -428,6 +449,9 @@ public class RoomsAndMapParser {
 		}
 		else if ((index = line.indexOf("$Desc ")) > -1 && (endIndex = line.indexOf(":", index + 5)) > -1) {
 			return line.substring(index + 5, endIndex).trim();
+		}
+		else if ((index = line.indexOf("$Message ")) > -1 && (endIndex = line.indexOf(":", index + 8)) > -1) {
+			return line.substring(index + 8, endIndex).trim();
 		}
 		else if ((index = line.indexOf("$Story ")) > -1 && (endIndex = line.indexOf(":", index + 6)) > -1) {
 			return line.substring(index + 6, endIndex).trim();
@@ -464,11 +488,11 @@ public class RoomsAndMapParser {
 	 */
 	private void fillTextBuffer(int processType, String roomID, List<String> buffer) {
 
-		if(isTextProcessing(processType)) {
+		if(this.isTextProcessing(processType)) {
 
 			String text = "";
 			for(String s: buffer) {
-				text += s;
+				text += (s + "\n");
 			}
 
 			if (processType == PARSE_DESC) {
@@ -756,6 +780,26 @@ public class RoomsAndMapParser {
 			}
 		}
 
+		for(String roomID : this.lockRoomMap.keySet()) {
+			Room fromRoom = this.roomsMap.get(roomID);
+			if (fromRoom == null) {
+				System.err.println("LOCK: Room ID: {" + roomID + "} not found!");
+				System.exit(1);
+			}
+
+			String strToRoom = this.lockRoomMap.get(roomID);
+			Room toRoom = this.roomsMap.get(strToRoom);
+
+			if (toRoom == null) {
+				System.err.println("LOCK: Room ID: {" + strToRoom + "} not found!");
+				System.exit(1);
+			}
+
+			fromRoom.setLockGoingToRoom(toRoom);
+		}
+
+		Zork.endingMessageList = this.endings;
+
 		return finalMap;
 	}
 
@@ -812,6 +856,9 @@ public class RoomsAndMapParser {
 	// Message text (key: room ID, value: message)
 	private Map<String, String> messageMap = new HashMap<String, String>();
 
+	// Message lock definition ($LockFrom X to Y)
+	private Map<String, String> lockRoomMap = new HashMap<String, String>();
+
 	// keep the different endings of the story
 	private List<String> endings = new ArrayList<String>();
 
@@ -827,4 +874,4 @@ public class RoomsAndMapParser {
 	// keep the characters while parsing
 	private Map<String, List<Character>> characterMap = new HashMap<String, List<Character>>();
 
-}	// end LoadRoomsMap
+}	// end RoomsAndMapParser

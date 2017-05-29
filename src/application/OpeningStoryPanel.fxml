@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainStoryController">
+<BorderPane prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainStoryController">
    <center>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="664.0" prefWidth="800.0" spacing="8.0">
          <children>
             <StackPane>
                <children>
@@ -21,17 +21,28 @@
                      </image>
                   </ImageView>
                </children>
-            </StackPane>
-            <TextArea prefHeight="181.0" prefWidth="800.0" />
-            <StackPane>
                <VBox.margin>
-                  <Insets top="2.0" />
+                  <Insets />
                </VBox.margin>
-               <children>
-                  <Button fx:id="okButton" alignment="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="90.0" text="OK" />
-               </children>
+               <padding>
+                  <Insets top="7.0" />
+               </padding>
             </StackPane>
+            <TextArea fx:id="storyTextArea" editable="false" prefHeight="371.0" prefWidth="800.0" wrapText="true" />
          </children>
       </VBox>
    </center>
+   <bottom>
+      <StackPane prefHeight="42.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="okButton" alignment="CENTER" mnemonicParsing="false" prefHeight="36.0" prefWidth="90.0" text="OK" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="1.0" />
+         </padding>
+      </StackPane>
+   </bottom>
 </BorderPane>

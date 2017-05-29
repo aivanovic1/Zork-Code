@@ -1,6 +1,4 @@
 
-
-
 [DONE] Create Inventory items to put in rooms (in the room definition text file)
 [DONE] Parse inventory and allocate to each room
 [DONE] Player class
@@ -12,23 +10,37 @@
 [DONE] Move
 [DONE] Check
 [DONE] Take (take all, take + String)
-- Inspect
+[DONE] Inspect
 
-- Design Combat
--- Attack
--- Use (medicine)
--- Throw grenade
+[DONE] Design Combat
+[DONE] Attack
+[DONE] Use (medicine)
+[DONE] Throw grenade
+[DONE] Messages for hit and miss
+[DONE] Opponent Combat
+[DONE] Player Attack
+
+- Write the HELP file content (html)
+- Bug Testing
 
 [DONE] fix inventory and capacity
 [DONE] fix ability in all toString methods for items
 {DONE] fix the size of messages in the history panel
-- Opening Story
-[DONE] Story for Rooms
-- Message for Rooms (when you need a key and don't have that key)
-- Add Lockable boolean to rooms for message
-[DONE] Parse inspect and item being inspected and return response
-- Inventory Panel
-- When reporting invalid command don't replace the first word
+[DONE] opening Story
+[DONE] story for Rooms
+[DONE] message for Rooms (when you need a key and don't have that key)
+{DONE] add Lockable boolean to rooms for message
+[DONE] parse inspect and item being inspected and return response
+[DONE] Inventory Panel (display player's inventory with all item info, as well as total weight and capacity)
+[DONE] when reporting invalid command don't replace the first word
 [DONE] add boolean firstTimeEntered
+[DONE] keep the track from which direction the room was entered
+[DONE] Add ‘goto roomID’ command for testing (jumps to the specified room immediately)
+[DONE] Help file to display from local HTML page
+[DONE] Set the node focus on the main screen with node.requestFocus()
+[DONE] Explore clock display at the end of the game with special Concurrency handling in Java FX
+[DONE] Do final sequence, once story2 plays and you hit ok, timer begins and once timer runs out play one of three endings depending on where you are
+[DONE] Add combat panel
+[DONE] Fix main list box (historyMessages) with multiple-line ListView
 
-- Do final sequence, once story2 plays and you hit ok, timer begins and once timer runs out play one of three endings depending on where you are
+- Test and fix some of the Inspect text formatting (text display)

@@ -162,24 +162,24 @@ $Inventory S: Grenade, Nerve Agent, 2, Nerve, 0
 
 #Characters RoomID: Name, Health, Power, Accuracy, Reduction
 
-$Character K: Rogue Crew Member, 50, 5, 45, 0
-$Character K: Rogue Crew Member, 50, 20, 60, 20
-$Character K: Rogue Crew Member, 50, 10, 20, 40
-$Character N: Rogue Guard, 60, 25, 65, 25
-$Character N: Rogue Guard, 70, 5, 45, 0
-$Character R: Biologist, 70, 2, 100, 0
-$Character R: Doctor, 70, 3, 100, 0
-$Character R: Surgeon, 70, 4, 100, 0
-$Character O: Rogue Crew Member, 75, 7, 45, 20
-$Character X: Armoured Mercenary, 100, 10, 25, 45
-$Character X: Armoured Mercenary, 100, 12, 20, 60
-$Character Y: Black Arms Trader, 100, 35, 70, 30
-$Character Y: Black Arms Trader, 100, 30, 75, 50
-$Character W: Rogue Guard, 110, 8, 35, 10
-$Character W: Rogue Guard, 110, 8, 35, 10
-$Character Z: Black Arms Trader, 110, 15, 25, 10
-$Character Z: Sergeant Autumn, 125, 10, 50, 50
-$Character *: Captain Valkorion, 150, 15, 60, 50
+$Character K: Rogue Crew Member, 20, 5, 45, 0
+$Character K: Rogue Crew Member, 20, 20, 60, 20
+$Character K: Rogue Crew Member, 20, 10, 20, 40
+$Character N: Rogue Guard, 30, 25, 65, 25
+$Character N: Rogue Guard, 40, 5, 45, 0
+$Character R: Biologist, 40, 2, 100, 0
+$Character R: Doctor, 40, 3, 100, 0
+$Character R: Surgeon, 40, 4, 100, 0
+$Character O: Rogue Crew Member, 45, 7, 45, 20
+$Character X: Armoured Mercenary, 70, 10, 25, 45
+$Character X: Armoured Mercenary, 70, 12, 20, 60
+$Character Y: Black Arms Trader, 70, 35, 70, 30
+$Character Y: Black Arms Trader, 70, 30, 75, 50
+$Character W: Rogue Guard, 80, 8, 35, 10
+$Character W: Rogue Guard, 80, 8, 35, 10
+$Character Z: Black Arms Trader, 80, 15, 25, 10
+$Character Z: Sergeant Autumn, 100, 10, 50, 50
+$Character *: Captain Valkorion, 120, 15, 60, 50
 
 #
 # Inspect definitions; Inspect responses at the end of the file

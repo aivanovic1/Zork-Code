@@ -30,7 +30,7 @@ public class Armour extends Item {
 	public int reduce(int damageDealt) {
 		if (this.isActive()) {
 			this.durability--;
-			return damageDealt * (this.reduction/100);
+			return (int)(damageDealt * (this.reduction/100.0));
 		}
 		return damageDealt;
 	}

@@ -88,7 +88,7 @@ public class Character {
 	}
 
 	public void decrementHealth(int damage) {
-		if (this.reduction > 0) this.health -= (damage * (this.reduction/100));
+		if (this.reduction > 0) this.health -= (damage * (this.reduction/100.0));
 		else this.health -= damage;
 
 		if (this.health < 0) this.health = 0;

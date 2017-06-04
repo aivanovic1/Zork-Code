@@ -4,11 +4,22 @@
 package application;
 
 /**
+ * Enemies in the Game. They belong to the room.
+ *
  * @author Andrei Ivanovic
  *
  */
 public class Character {
 
+	/**
+	 * Simple constructor
+	 *
+	 * @param name
+	 * @param health
+	 * @param power
+	 * @param accuracy
+	 * @param reduction
+	 */
 	public Character(String name, int health, int power, int accuracy, int reduction) {
 		this.name = name;
 		this.health = health;
@@ -83,10 +94,26 @@ public class Character {
 		this.turnsToSkip = turnsToSkip;
 	}
 
+	/**
+	 * Check if turn needs to be skipped
+	 * @return
+	 */
+	public boolean isSkippingTurn() {
+		return this.turnsToSkip > 0;
+	}
+
+	/**
+	 * Decrement skip turn level
+	 */
 	public void decrementTurnsToSkip() {
 		if (this.turnsToSkip > 0) this.turnsToSkip--;
 	}
 
+	/**
+	 * Decrement health level
+	 *
+	 * @param damage
+	 */
 	public void decrementHealth(int damage) {
 		if (this.reduction > 0) this.health -= (damage * (this.reduction/100.0));
 		else this.health -= damage;
@@ -94,6 +121,11 @@ public class Character {
 		if (this.health < 0) this.health = 0;
 	}
 
+	/**
+	 * Take the damage from player's weapons
+	 *
+	 * @param damage
+	 */
 	public void takeDamage(Damage damage) {
 		if (damage.getAbility() == WeaponAbilityType.WEAPON_ABILITY_EXPLODE) {
 			decrementHealth(damage.getPower());
@@ -103,7 +135,7 @@ public class Character {
 		} else if (damage.getAbility() == WeaponAbilityType.WEAPON_ABILITY_NERVE) {
 			this.health = 0;
 		} else if (damage.getAbility() == WeaponAbilityType.WEAPON_ABILITY_STUN) {
-			this.setTurnsToSkip(1);
+			this.setTurnsToSkip(2);
 		} else if (damage.getAbility() == WeaponAbilityType.WEAPON_ABILITY_BURN) {
 			this.decrementHealth(2);
 		} else if (damage.getAbility() == WeaponAbilityType.WEAPON_ABILITY_SHOCK) {
@@ -114,10 +146,17 @@ public class Character {
 		Zork.combatHistory.add("ANG3L: By the looks of it, they're at about " + this.health + " health!");
 	}
 
+	/**
+	 * Check if character is still alive (this.health > 0)
+	 * @return
+	 */
 	public boolean isAlive() {
 		return this.health > 0;
 	}
 
+	/**
+	 * toString() method
+	 */
 	public String toString() {
 		return String.format("Name: %s, Health: %d, Power: %d, Accuracy: %d", name, health, power, accuracy);
 	}

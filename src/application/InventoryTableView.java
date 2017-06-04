@@ -7,7 +7,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -16,75 +15,46 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
+ * Inventory DialogBox (panel)
+ *
  * @author Andrei Ivanovic
  *
  */
 public class InventoryTableView {
 
-	private Button okButton;
-
-	private TableView<ExtendedItem> tblView;
-
-	private Label txtLabel;
-
-	private int totalInventoryWeight = 0;
-	final protected ObservableList<ExtendedItem> extItemsData = FXCollections.observableArrayList();
-
-	private Stage inventoryStage = null;
-	private BorderPane inventoryPane = null;
-	private Scene inventoryScene = null;
-
-	private final int PANEL_WIDTH = 900;
-	private final int PANEL_HEIGHT = 440;
-
 	/**
-	 * C-tor
+	 * Constructor
 	 */
 	public InventoryTableView() {
-		System.out.println("InventoryController c-tor!");
 	}
 
+	/**
+	 * Display the panel
+	 */
     public void display() {
-    	System.out.println("InventoryController::initialize() method is invoked!");
 
     	// load data to observable list
     	this.loadItems();
 
     	this.inventoryPane = new BorderPane();
-
 		this.inventoryScene = new Scene(this.inventoryPane);
-		//this.inventoryScene.
 
 		HBox topHbox = new HBox();
 		topHbox.setPrefSize(PANEL_WIDTH, 40);
 		topHbox.setPadding(new Insets(5, 5, 5, 5));
 		topHbox.setSpacing(10);   // Gap between nodes
-		//topHbox.setStyle("-fx-background-color: #336699;");
-
-//	    Button buttonHome = new Button("Home");
-//	    buttonHome.setPrefSize(80, 30);
-//	    topHbox.getChildren().addAll(buttonHome);
-
-	    // switch screen to Home Screen
-//	    buttonHome.setOnAction(e -> this.handleClose(e));
 
 		HBox bottomHbox = new HBox();
-//		bottomHbox.setPrefSize(900, 40);
-//		bottomHbox.setPadding(new Insets(5, 5, 5, 5));
-//		bottomHbox.setSpacing(10);   // Gap between nodes
 
 		StackPane bottomLaftPane = new StackPane();
 		bottomLaftPane.setPrefSize(PANEL_WIDTH/2, 40);
@@ -180,7 +150,11 @@ public class InventoryTableView {
     	this.inventoryStage.show();
     }
 
-    // close inventory dialog box
+    /**
+     * Close inventory dialog box
+     *
+     * @param actionEvent
+     */
     public void handleClose(ActionEvent actionEvent) {
         // close the dialog.
         Node  source = (Node)  actionEvent.getSource();
@@ -195,7 +169,9 @@ public class InventoryTableView {
         });
       }
 
-    // load the items to the table view
+    /**
+     * Load the items to the table view
+     */
     private void loadItems() {
     	for(Item item : Zork.player.getPlayerInventory().getInventory()) {
 
@@ -206,4 +182,18 @@ public class InventoryTableView {
     	}
     }
 
-} //end InventoryController
+	private Button okButton;
+
+	private TableView<ExtendedItem> tblView;
+
+	private int totalInventoryWeight = 0;
+	final protected ObservableList<ExtendedItem> extItemsData = FXCollections.observableArrayList();
+
+	private Stage inventoryStage = null;
+	private BorderPane inventoryPane = null;
+	private Scene inventoryScene = null;
+
+	private final int PANEL_WIDTH = 900;
+	private final int PANEL_HEIGHT = 440;
+
+} // end InventoryTableView

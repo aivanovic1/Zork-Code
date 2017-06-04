@@ -4,6 +4,8 @@
 package application;
 
 /**
+ * Keeps the list of different Weapon ability types
+ *
  * @author Andrei Ivanovic
  *
  */
@@ -19,10 +21,19 @@ public enum WeaponAbilityType {
 	WEAPON_ABILITY_VAMPIRE, //heals you (+2)
 	WEAPON_ABILITY_SCALE; //increases the power of your weapon each time you use it (+1)
 
+	/**
+	 * toString()
+	 */
 	public String toString() {
 		return WeaponAbilityType.abilityTypeToString(this);
 	}
 
+	/**
+	 * Convert type to String
+	 *
+	 * @param type
+	 * @return
+	 */
 	public static String abilityTypeToString(WeaponAbilityType type) {
 
 		if (type == WeaponAbilityType.WEAPON_ABILITY_EXPLODE)
@@ -45,6 +56,11 @@ public enum WeaponAbilityType {
 			return "None";
 	}
 
+	/**
+	 * Convert string input to actual WeaponAbilityType type
+	 * @param ability
+	 * @return
+	 */
 	public static WeaponAbilityType abilityStringToType(String ability) {
 
 		if (ability == null || ability.isEmpty()) return WeaponAbilityType.WEAPON_ABILITY_NONE;

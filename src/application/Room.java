@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Room object
+ * Room object, holds the number objects, like items, characters, link to other rooms, ...
+ * One of the largest object in the Zork game
  *
  * @author Andrei Ivanovic
  *
@@ -15,7 +16,7 @@ import java.util.List;
 public class Room {
 
 	/**
-	 * C-tor
+	 * Constructor
 	 *
 	 * @param name
 	 */
@@ -38,24 +39,28 @@ public class Room {
 	public Room getNorth() {
 		return north;
 	}
+
 	/**
 	 * @param north the north to set
 	 */
 	public void setNorth(Room north) {
 		this.north = north;
 	}
+
 	/**
 	 * @return the south
 	 */
 	public Room getSouth() {
 		return south;
 	}
+
 	/**
 	 * @param south the south to set
 	 */
 	public void setSouth(Room south) {
 		this.south = south;
 	}
+
 	/**
 	 * @return the east
 	 */
@@ -87,10 +92,18 @@ public class Room {
 		return name;
 	}
 
+	/**
+	 * Mark the room to be a starting room for the Game
+	 */
 	public void makeEntranceRoom() {
 		this.entranceRoom = true;
 	}
 
+	/**
+	 * Set the name
+	 *
+	 * @param newName
+	 */
 	public void setName(String newName) {
 		this.name = newName;
 	}
@@ -177,14 +190,6 @@ public class Room {
 		this.firstTimeEntered = firstTimeEntered;
 	}
 
-	//construct the item you want in a room (you can add more if it is needed. e.g, Item itemFour)
-	public void setItems(Item itemOne, Item ItemTwo, Item itemThree){
-		items = new ArrayList<Item>();
-		items.add(itemOne);
-		items.add(ItemTwo);
-		items.add(itemThree);
-	}
-
 	//remove an item from the room
 	public void removeItem(Item item){
 		int currentIndex = items.indexOf(item);
@@ -237,6 +242,11 @@ public class Room {
 		return characters;
 	}
 
+	/**
+	 * Count only alive characters
+	 *
+	 * @return
+	 */
 	public int getTotalAliveCharacters() {
 		int count = 0;
 		for (Character c : this.characters) {
@@ -245,17 +255,29 @@ public class Room {
 		return count;
 	}
 
-	//getter for the items list
+	/**
+	 * Getter for the list of items
+	 *
+	 * @return
+	 */
 	public List<Item> getItems(){
 		return items;
 	}
 
-	// setter for the items list
+	/**
+	 * Setter for the items list
+	 *
+	 * @param itemsList
+	 */
 	public void setItems(List<Item> itemsList) {
 		this.items = itemsList;
 	}
 
-	// setter for the items list
+	/**
+	 * Setter for the items list
+	 *
+	 * @param characters
+	 */
 	public void setCharacters(List<Character> characters) {
 		this.characters = characters;
 	}
@@ -274,7 +296,10 @@ public class Room {
 		this.lockGoingToRoom = lockGoingToRoom;
 	}
 
-	//check whether a room has item
+	/**
+	 * check whether a room has item
+	 * @return
+	 */
 	public boolean hasItems(){
 		boolean hasItems = true;
 		int count = 0;
@@ -287,6 +312,62 @@ public class Room {
 			hasItems = false;
 		}
 		return hasItems;
+	}
+
+	/**
+	 * @return the imageFileName
+	 */
+	public String getImageFileName() {
+		return imageFileName;
+	}
+
+	/**
+	 * @param imageFileName the imageFileName to set
+	 */
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+
+	/**
+	 * @return the totalKeysRequired
+	 */
+	public int getTotalKeysRequired() {
+		return totalKeysRequired;
+	}
+
+	/**
+	 * @param totalKeysRequired the totalKeysRequired to set
+	 */
+	public void setTotalKeysRequired(int totalKeysRequired) {
+		this.totalKeysRequired = totalKeysRequired;
+	}
+
+	/**
+	 * @return the enemyImageFileName
+	 */
+	public String getEnemyImageFileName() {
+		return enemyImageFileName;
+	}
+
+	/**
+	 * @param enemyImageFileName the enemyImageFileName to set
+	 */
+	public void setEnemyImageFileName(String enemyImageFileName) {
+		this.enemyImageFileName = enemyImageFileName;
+	}
+
+	/**
+	 * @return the soundFileName
+	 */
+	public String getSoundFileName() {
+		return soundFileName;
+	}
+
+	/**
+	 * @param soundFileName the soundFileName to set
+	 */
+	public void setSoundFileName(String soundFileName) {
+		this.soundFileName = soundFileName;
 	}
 
 	/**
@@ -333,7 +414,7 @@ public class Room {
 		System.out.printf("  South exit to: %s%n", this.south != null ? this.south.getName() : "not an exit!");
 
 		if (this.lockGoingToRoom != null) {
-			System.out.printf("  Lock exists going to room: %s%n", this.getLockGoingToRoom().getName());
+			System.out.printf("  Lock exists going to room: %s, total keys required: %d%n", this.getLockGoingToRoom().getName(), this.totalKeysRequired);
 		}
 
 		if (this.items != null) {
@@ -409,6 +490,15 @@ public class Room {
 				text = this.aiText;
 		}
 		System.out.printf("  AI text: [%s]%n", text);
+
+		if (this.imageFileName != null) System.out.printf("  Room's image file location: [%s]%n", this.imageFileName);
+		else System.out.printf("  Room's image file location: [NONE]%n");
+
+		if (this.soundFileName != null) System.out.printf("  Room's sound file location: [%s]%n", this.soundFileName);
+		else System.out.printf("  Room's sound file location: [NONE]%n");
+
+		if (this.enemyImageFileName != null) System.out.printf("  Enemy's image file location: [%s]%n", this.enemyImageFileName);
+		else System.out.printf("  Enemy's image file location: [NONE]%n");
 	}
 
 	// ---------------------- fields
@@ -429,6 +519,7 @@ public class Room {
 	private Room west = null;
 
 	private Room lockGoingToRoom = null;
+	private int totalKeysRequired = 0;
 
 	private boolean firstTimeEntered = false;
 
@@ -437,5 +528,10 @@ public class Room {
 	private String story2 = null;
 	private String aiText = null;
 	private String message = null;
+
+	private String imageFileName = null;
+	private String soundFileName = null;
+	private String enemyImageFileName = null;
+
 
 }	// end Room

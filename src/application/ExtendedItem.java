@@ -4,11 +4,29 @@
 package application;
 
 /**
+ * This is helper object to hold items displayed in the Inventory panel
+ *
  * @author Andrei Ivanovic
  *
  */
 public class ExtendedItem {
 
+	/**
+	 * Constructor
+	 *
+	 * @param name
+	 * @param type
+	 * @param weight
+	 * @param ability
+	 * @param ammo
+	 * @param ammoUsage
+	 * @param power
+	 * @param accuracy
+	 * @param qty
+	 * @param heal
+	 * @param reduction
+	 * @param durability
+	 */
 	public ExtendedItem(String name, ItemType type, int weight, String ability, int ammo, int ammoUsage, int power, int accuracy, int qty, int heal, int reduction, int durability) {
 
 		this.name = name;

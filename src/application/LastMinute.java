@@ -10,27 +10,31 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * @author Zoran
+ * This is the process which gets triggered only when we come to the end of the game!
+ * It is a count-down from 60sec
+ *
+ * @author Andrei Ivanovic
  *
  */
 public class LastMinute implements Runnable {
 
+	/**
+	 * Last minute constructor
+	 */
 	public LastMinute() {
-
+		// nothing
 	}
 
+	/**
+	 * Starts the thread that keeps counter displayed from 60 sec to 1 sec
+	 */
 	public void start() {
 
 		Zork.finalCountdownStarted = true;
@@ -43,6 +47,9 @@ public class LastMinute implements Runnable {
 		thread.start();
 	}
 
+	/**
+	 * Thread runs this method
+	 */
 	@Override
 	public void run() {
 
@@ -62,9 +69,13 @@ public class LastMinute implements Runnable {
 		Zork.gameTerminated = true;
 		Platform.runLater( () -> Zork.finalMinuteTimerLabel.setText("GAME OVER!"));
 
+		// display the last message
 		Platform.runLater( () -> showLastMessage());
 	}
 
+	/**
+	 * Shows the GAME CLOSING message
+	 */
 	private void showLastMessage() {
 
 		// VBox for the entire dialog
@@ -117,6 +128,11 @@ public class LastMinute implements Runnable {
     	stage.show();
 	}
 
+	/**
+	 * Exit the app
+	 *
+	 * @param actionEvent
+	 */
     public void exitApp(ActionEvent actionEvent) {
         // close the dialog.
         Node  source = (Node)  actionEvent.getSource();

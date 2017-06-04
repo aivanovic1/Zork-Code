@@ -4,6 +4,8 @@
 package application;
 
 /**
+ * Keep the Item types
+ *
  * @author Andrei Ivanovic
  *
  */

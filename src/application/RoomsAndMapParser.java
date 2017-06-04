@@ -6,15 +6,12 @@ package application;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Main parser for the Game Map, Room Layouts, room descriptions, story telling and AI comments
@@ -39,7 +36,12 @@ public class RoomsAndMapParser {
 	private static final int PARSE_INSPECT = 12;
 	private static final int PARSE_INSPECT_RESPONSE = 13;
 	private static final int PARSE_LOCK = 14;
+	private static final int PARSE_IMAGE_FILE_LOCATION = 15;
+	private static final int PARSE_IMAGE_COMBAT_FILE_LOCATION = 16;
+	private static final int PARSE_ENDING_ROOM = 17;
+	private static final int PARSE_COMBAT_SOUND = 18;
 
+	// ctor for parsing
 	public RoomsAndMapParser(String fileName) {
 		this.fileName = fileName;
 	}
@@ -63,18 +65,12 @@ public class RoomsAndMapParser {
 		{
 			// open text file for parsing
     		br = new BufferedReader(new InputStreamReader(new FileInputStream(this.fileName), "UTF-8"));
-            //br = new BufferedReader(new FileReader(this.fileName));
 
-            int lineNo = 0;
             String line = null;
-
             int countMapLines = 0;
-
             List<String> textBuffer = new ArrayList<String>();
 
             while ((line = br.readLine()) != null) {
-
-            	++lineNo;
 
             	// skip comments
             	if (line.trim().startsWith("#")) continue;
@@ -111,6 +107,44 @@ public class RoomsAndMapParser {
             		if ((index = line.indexOf(":")) > -1) {
             			Item item = inventoryParsing(line.substring(index+1));
             			this.player.getPlayerInventory().addItem(item);
+            		}
+            	}
+            	else if (line.trim().startsWith("$Image ")) {
+
+            		parsingSection = PARSE_IMAGE_FILE_LOCATION;
+            		currentRoom = whatRoom(line);
+
+            		int index = -1;
+            		if ((index = line.indexOf(":")) > -1) {
+            			this.imageMap.put(currentRoom.toUpperCase(), line.substring(index+1).trim());
+            		}
+            	}
+            	else if (line.trim().startsWith("$ImageCombat ")) {
+
+            		parsingSection = PARSE_IMAGE_COMBAT_FILE_LOCATION;
+            		currentRoom = whatRoom(line);
+
+            		int index = -1;
+            		if ((index = line.indexOf(":")) > -1) {
+            			this.imageCombatMap.put(currentRoom.toUpperCase(), line.substring(index+1).trim());
+            		}
+            	}
+            	else if (line.trim().startsWith("$CombatSound ")) {
+
+            		parsingSection = PARSE_COMBAT_SOUND;
+            		currentRoom = whatRoom(line);
+
+            		int index = -1;
+            		if ((index = line.indexOf(":")) > -1) {
+            			this.soundCombatMap.put(currentRoom.toUpperCase(), line.substring(index+1).trim());
+            		}
+            	}
+            	else if (line.trim().startsWith("$EndingRoom:")) {
+
+            		parsingSection = PARSE_ENDING_ROOM;
+            		int index = -1;
+            		if ((index = line.indexOf("$EndingRoom:")) > -1) {
+            			this.endingRoomId = line.substring(index + 12).trim().toUpperCase();
             		}
             	}
             	else if (line.trim().startsWith("$Inspect ")) {
@@ -160,8 +194,21 @@ public class RoomsAndMapParser {
 
             		int index = -1;
             		if ((index = line.indexOf(" to ")) > -1) {
-            			String goToRoom = line.substring(index + 4).trim();
-            			this.lockRoomMap.put(currentRoom.toUpperCase(), goToRoom.toUpperCase());
+            			String tmpStr = line.substring(index + 4).trim();
+            			int commaIndex = tmpStr.indexOf(",");
+
+            			String goToRoom = null;
+            			if (commaIndex > -1) {
+            				goToRoom = tmpStr.substring(0, commaIndex);
+            			}
+
+            			String noKeys = null;
+            			index = tmpStr.indexOf(":");
+            			if (index > -1) {
+            				noKeys = tmpStr.substring(index + 1).trim();
+            			}
+
+            			this.lockRoomMap.put(currentRoom.toUpperCase(), goToRoom.toUpperCase() + ":" + noKeys);
             		}
             	}
             	else if (line.trim().startsWith("$Desc ")) {
@@ -283,13 +330,6 @@ public class RoomsAndMapParser {
 	}
 
 	/**
-	 * @return the startingRoom
-	 */
-	public Room getStartingRoom() {
-		return startingRoom;
-	}
-
-	/**
 	 * @return the roomsMap
 	 */
 	public Map<String, Room> getRoomsMap() {
@@ -308,6 +348,7 @@ public class RoomsAndMapParser {
 		if (arr.length < 2) return null;
 
 		this.player = new Player(Integer.parseInt(arr[0].trim()), Integer.parseInt(arr[1].trim()));
+		if (arr.length > 2) this.player.setImageFileName(arr[2].trim());
 
 		return this.player;
 	}
@@ -447,6 +488,12 @@ public class RoomsAndMapParser {
 		else if ((index = line.indexOf("$InspectResponse ")) > -1 && (endIndex = line.indexOf(":", index + 16)) > -1) {
 			return line.substring(index + 16, endIndex).trim();
 		}
+		else if ((index = line.indexOf("$ImageCombat ")) > -1 && (endIndex = line.indexOf(":", index + 12)) > -1) {
+			return line.substring(index + 12, endIndex).trim();
+		}
+		else if ((index = line.indexOf("$CombatSound ")) > -1 && (endIndex = line.indexOf(":", index + 12)) > -1) {
+			return line.substring(index + 12, endIndex).trim();
+		}
 		else if ((index = line.indexOf("$Desc ")) > -1 && (endIndex = line.indexOf(":", index + 5)) > -1) {
 			return line.substring(index + 5, endIndex).trim();
 		}
@@ -454,6 +501,9 @@ public class RoomsAndMapParser {
 			return line.substring(index + 8, endIndex).trim();
 		}
 		else if ((index = line.indexOf("$Story ")) > -1 && (endIndex = line.indexOf(":", index + 6)) > -1) {
+			return line.substring(index + 6, endIndex).trim();
+		}
+		else if ((index = line.indexOf("$Image ")) > -1 && (endIndex = line.indexOf(":", index + 6)) > -1) {
 			return line.substring(index + 6, endIndex).trim();
 		}
 		else if ((index = line.indexOf("$Story2 ")) > -1 && (endIndex = line.indexOf(":", index + 7)) > -1) {
@@ -615,7 +665,8 @@ public class RoomsAndMapParser {
 	        			System.exit(1);
 					}
 
-					this.startingRoom.makeEntranceRoom();				}
+					this.startingRoom.makeEntranceRoom();
+				}
 			}
 		}
 	}
@@ -710,7 +761,7 @@ public class RoomsAndMapParser {
 	}
 
 	/**
-	 * Final mapping
+	 * Final mapping of all internal collections obtained during the parsing to the actual Room & Player objects creation
 	 *
 	 * @return
 	 */
@@ -746,6 +797,21 @@ public class RoomsAndMapParser {
 		for(String roomID : this.messageMap.keySet()) {
 			Room r = this.roomsMap.get(roomID);
 			if (r != null) r.setMessage(this.messageMap.get(roomID));
+		}
+
+		for(String roomID : this.imageMap.keySet()) {
+			Room r = this.roomsMap.get(roomID);
+			if (r != null) r.setImageFileName(this.imageMap.get(roomID));
+		}
+
+		for(String roomID : this.imageCombatMap.keySet()) {
+			Room r = this.roomsMap.get(roomID);
+			if (r != null) r.setEnemyImageFileName(this.imageCombatMap.get(roomID));
+		}
+
+		for(String roomID : this.soundCombatMap.keySet()) {
+			Room r = this.roomsMap.get(roomID);
+			if (r != null) r.setSoundFileName(this.soundCombatMap.get(roomID));
 		}
 
 		for(String roomID : this.inventoryMap.keySet()) {
@@ -788,7 +854,15 @@ public class RoomsAndMapParser {
 			}
 
 			String strToRoom = this.lockRoomMap.get(roomID);
-			Room toRoom = this.roomsMap.get(strToRoom);
+
+			String[] arr = strToRoom.split(":");
+
+			int keysNeeded = 0;
+			Room toRoom = this.roomsMap.get(arr[0].trim());
+			try {
+				keysNeeded = Integer.parseInt(arr[1].trim());
+			} catch (NumberFormatException e) {
+			}
 
 			if (toRoom == null) {
 				System.err.println("LOCK: Room ID: {" + strToRoom + "} not found!");
@@ -796,6 +870,30 @@ public class RoomsAndMapParser {
 			}
 
 			fromRoom.setLockGoingToRoom(toRoom);
+			fromRoom.setTotalKeysRequired(keysNeeded);
+
+	    	this.startingRoom = null;
+	        for(Room r : this.roomsMap.values()) {
+	        	if (r.isEntranceRoom()) {
+	        		this.startingRoom = r;
+	        		break;
+	        	}
+	        }
+
+			if (this.startingRoom == null) {
+				System.err.println("Starting room is not provided!");
+				System.exit(1);
+			}
+
+			if (this.endingRoomId != null && !this.endingRoomId.isEmpty()) {
+				Room r = this.roomsMap.get(this.endingRoomId);
+				if (r != null) this.endingRoom = r;
+			}
+
+			if (this.endingRoom == null) {
+				System.err.println("Ending room ID is not provided or it is invalid!");
+				System.exit(1);
+			}
 		}
 
 		Zork.endingMessageList = this.endings;
@@ -822,6 +920,20 @@ public class RoomsAndMapParser {
 		return this.endings;
 	}
 
+	/**
+	 * @return the startingRoom
+	 */
+	public Room getStartingRoom() {
+		return startingRoom;
+	}
+
+	/**
+	 * @return the endingRoom
+	 */
+	public Room getEndingRoom() {
+		return endingRoom;
+	}
+
 	// --------- fields
 
 	// the name of the definition file: room layout map & room description
@@ -830,8 +942,11 @@ public class RoomsAndMapParser {
 	// main player class
 	private Player player = null;
 
+	private String endingRoomId = null;
+
 	// game starting room
 	private Room startingRoom = null;
+	private Room endingRoom = null;
 
 	// all rooms (key: room ID, value: room object)
 	private Map<String, Room> roomsMap = new HashMap<String, Room>();
@@ -859,6 +974,15 @@ public class RoomsAndMapParser {
 	// Message lock definition ($LockFrom X to Y)
 	private Map<String, String> lockRoomMap = new HashMap<String, String>();
 
+	// Image location map ($Image roomID: fileName)
+	private Map<String, String> imageMap = new HashMap<String, String>();
+
+	// Image location map ($Image roomID: fileName)
+	private Map<String, String> imageCombatMap = new HashMap<String, String>();
+
+	// Sound file location map ($Image roomID: fileName)
+	private Map<String, String> soundCombatMap = new HashMap<String, String>();
+
 	// keep the different endings of the story
 	private List<String> endings = new ArrayList<String>();
 
@@ -874,4 +998,4 @@ public class RoomsAndMapParser {
 	// keep the characters while parsing
 	private Map<String, List<Character>> characterMap = new HashMap<String, List<Character>>();
 
-}	// end RoomsAndMapParser
+} // end RoomsAndMapParser

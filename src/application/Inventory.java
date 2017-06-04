@@ -7,18 +7,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Player's inventory (borrowed from school code)
+ *
  * @author Andrei Ivanovic
  *
  */
 public class Inventory {
 
+	/**
+	 * Constructor
+	 *
+	 * @param maxCapacity
+	 */
 	public Inventory(int maxCapacity){
 		this.maxCapacityAllowed = maxCapacity;
 		inventory = new ArrayList<Item>(); //construct the object
 	}
 
-	//how to add an item to a inventory
-	public int addItem(Item item){
+	/**
+	 * how to add an item to a inventory
+	 *
+	 * @param item
+	 * @return
+	 */
+	public int addItem(Item item) {
 		if ((weight + item.getWeight()) < this.maxCapacityAllowed){ //IT IS A + NOT A "+="
 			inventory.add(item);
 			weight += item.getWeight();
@@ -27,6 +39,13 @@ public class Inventory {
 			return -1;
 		}
 	}
+
+	/**
+	 * Check if item can be added to Player's inventory
+	 *
+	 * @param item
+	 * @return
+	 */
 	public boolean canIAdd(Item item) {
 		if ((weight + item.getWeight()) < this.maxCapacityAllowed){ //IT IS A + NOT A "+="
 			return true;
@@ -34,27 +53,76 @@ public class Inventory {
 			return false;
 		}
 	}
-	//how to remove an item
-	public void removeItem(Item item){
+
+	/**
+	 * How to remove an item
+	 *
+	 * @param item
+	 * @return
+	 */
+	public Item removeItem(Item item) {
 		currentIndex = inventory.indexOf(item);
 		inventory.remove(currentIndex);
 		weight -= item.getWeight();
+
+		return item;
 	}
 
-	//the weight that you currently are carrying
+	/**
+	 * Remove an item with the index #
+	 *
+	 * @param index
+	 * @return
+	 */
+	public Item removeItemByIndex(int index) {
+		currentIndex = index;
+		Item item = this.inventory.get(index);
+		inventory.remove(currentIndex);
+		weight -= item.getWeight();
+
+		return item;
+	}
+
+	/**
+	 * Simple remove entire inventory from the player (drop all)
+	 */
+	public void removeAllInventory() {
+		this.inventory.clear();
+		this.weight = 0;
+	}
+
+	/**
+	 * the weight that you currently are carrying
+	 *
+	 * @return
+	 */
 	public int getTotalInventoryWeight(){
 		return weight;
 	}
 
-	//getter for the inventory arraylist
+	/**
+	 * getter for the inventory arraylist
+	 *
+	 * @return
+	 */
 	public List<Item> getInventory(){
 		return inventory;
 	}
 
+	/**
+	 * Total inventory size: both active and inactive items
+	 *
+	 * @return
+	 */
 	public int getTotalInventorySize() {
 		return this.inventory.size();
 	}
 
+	/**
+	 * Counts only active player's items inventory
+	 *
+	 * @return
+	 */
 	public int getTotalActiveInventorySize() {
 
 		int totalActive = 0;
@@ -78,7 +146,11 @@ public class Inventory {
 		return this.inventory.get(ndx);
 	}
 
-	//print out the inventory you have
+	/**
+	 * Print out the inventory you have
+	 *
+	 * @return
+	 */
 	public String print(){
 		String words = "";
 		for (int i = 0; i<inventory.size(); i ++){
@@ -89,7 +161,11 @@ public class Inventory {
 		return words;
 	}
 
-	//get the max weight you can carry
+	/**
+	 * Get the max weight you can carry
+	 *
+	 * @return
+	 */
 	public int getMaxCapacityAllowed(){
 		return this.maxCapacityAllowed;
 	}

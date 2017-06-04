@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 /**
  * The main Zork class - starts JavaFX UI app
- * All UI screens are composed with SceneBuilder
+ * Some of the UI screens are composed with SceneBuilder and some programmatically
  *
  * @author Andrei Ivanovic
  *
@@ -32,9 +32,15 @@ public class Zork extends Application {
     private BorderPane mainWindow;
 
     protected static Player player = null;
-    protected static Room entranceRoom = null;
     protected static Stage primaryStage = null;
 
+    // trigger using audio in Combat
+    protected static boolean useAudio = true;
+
+    // used for the coming back from the last room
+    protected static boolean disableDialogBoxDisplay = false;
+
+    // keeps the track of the current room that player is in
     protected static Room currentRoom = null;
 
     //only used in combat panel
@@ -48,6 +54,10 @@ public class Zork extends Application {
     protected static boolean gameTerminated = false;
     protected static Label finalMinuteTimerLabel = null;
 
+    // starting and ending room
+    protected static Room endingRoom = null;
+    protected static Room startingRoom = null;
+
     protected static TextField commandEntryTextField = null;
 
     // keep all rooms in the HashMap, accessible from any part of the game
@@ -57,8 +67,9 @@ public class Zork extends Application {
 
     private final static int MAX_MSG_SIZE = 120000;
 
-    // start() is the main method when running Java FX applications
-
+    /**
+     * JavaFX uses start() to start UI
+     */
     @Override
     public void start(Stage primaryStage) {
     	Zork.primaryStage = primaryStage;
@@ -71,25 +82,12 @@ public class Zork extends Application {
         RoomsAndMapParser roomParser = new RoomsAndMapParser("./src/application/RoomLayout.dat");
         this.roomsMap = roomParser.loadMap();
 
-        for(Room r : Zork.roomsMap.values()) {
-        	if (r.isEntranceRoom()) {
-        		Zork.entranceRoom = r;
-        		break;
-        	}
-        }
+        // mark the ending room
+        Zork.endingRoom = roomParser.getEndingRoom();
+        Zork.startingRoom = roomParser.getStartingRoom();
 
         // remember the Player object
         Zork.player = roomParser.getPlayer();
-
-        // FOR TESTING ONLY
-//        System.out.println("\n\n********* List all rooms **********\n");
-//        for(Room r : this.roomsMap.values()) {
-//        	System.out.println(r.toString());
-//        }
-
-        // FOR TESTING
-//        Room r = this.roomsMap.get("*");
-//        r.print();
 
         try {
 			Thread.sleep(1000);
@@ -206,4 +204,4 @@ public class Zork extends Application {
         launch(args);
     }
 
-}	// end Zork
+} // end Zork

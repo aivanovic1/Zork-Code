@@ -11,13 +11,16 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 /**
+ * Loads the first story of the Game
+ * This is built with SceneBuilder tool
+ *
  * @author Andrei Ivanovic
  *
  */
 public class MainStoryController {
 
 	/**
-	 * C-tor
+	 * Constructor
 	 */
 	public MainStoryController() {
 		//System.out.println("MainStoryController c-tor!");
@@ -34,11 +37,16 @@ public class MainStoryController {
     	//System.out.println("MainStoryController::initialize() method is invoked!");
 
     	this.storyTextArea.setWrapText(true);
-    	this.storyTextArea.setText(Zork.entranceRoom.getStory());
+    	this.storyTextArea.setText(Zork.startingRoom.getStory());
 
     	this.okButton.setOnAction(e -> this.handleClose(e));
     }
 
+    /**
+     * Close handler
+     *
+     * @param actionEvent
+     */
     public void handleClose(ActionEvent actionEvent) {
         // close the dialog.
         Node  source = (Node)  actionEvent.getSource();

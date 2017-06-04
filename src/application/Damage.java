@@ -4,11 +4,19 @@
 package application;
 
 /**
+ * This is used in Combat when player uses certain weapon against the enemy
+ *
  * @author Andrei Ivanovic
  *
  */
 public class Damage {
 
+	/**
+	 * Simple constructor
+	 *
+	 * @param power
+	 * @param ability
+	 */
 	public Damage (int power, WeaponAbilityType ability) {
 		this.power = power;
 		this.ability = ability;

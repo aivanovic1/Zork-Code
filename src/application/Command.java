@@ -7,16 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Command that user enters in the main game panel
+ *
  * @author Andrei Ivanovic
  *
  */
 public class Command {
 
+	/**
+	 * Command understand main verb and parameters that might be attached to the verb: 'take knife'
+	 *
+	 * @param verb
+	 */
 	public Command(String verb) {
 		this.verb = verb;
 		this.params = new ArrayList<String>();
 	}
 
+	/**
+	 * Add method
+	 *
+	 * @param param
+	 */
 	public void addParam(String param) {
 		this.params.add(param);
 	}
@@ -70,6 +82,7 @@ public class Command {
 
 		return fullCommand;
 	}
+
 	/**
 	 * Generates a String containing all params without the verb
 	 * @return String

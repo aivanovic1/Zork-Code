@@ -20,13 +20,23 @@
 [DONE] Opponent Combat
 [DONE] Player Attack
 
-- Write the HELP file content (html)
-- Bug Testing
+[DONE] Write the HELP file content (html)
+[DONE] Bug Testing
+[DONE] Create 3 keys
+[DONE] Find the images for Rooms descriptions (define them in layout file) under $Image roomID: fileName [parser DONE] (samples are already there)
+[DONE] Combat scene doesn't play in Medical Bay
+[DONE] Ending timer starts during combat
+[DONE] Add sound for Combat Panel
 
-- Crashes when you die from combat
-- Taking an item crashes when the number exceeds the array size
-- Carry weight doesn't update properly
-- Doesn't end combat when you kill all enemies
+[DONE] Doesn't properly update the inventory size
+[DONE] Doesn't properly unlock door
+[DONE] Combat doesn't end still
+[DONE] Add Dialog Box for Story2
+
+[DONE] Crashes when you die from combat
+[DONE] Taking an item crashes when the number exceeds the array size
+[DONE] Carry weight doesn't update properly
+[DONE] Doesn't end combat when you kill all enemies
 
 [DONE] fix inventory and capacity
 [DONE] fix ability in all toString methods for items
@@ -47,5 +57,3 @@
 [DONE] Do final sequence, once story2 plays and you hit ok, timer begins and once timer runs out play one of three endings depending on where you are
 [DONE] Add combat panel
 [DONE] Fix main list box (historyMessages) with multiple-line ListView
-
-- Test and fix some of the Inspect text formatting (text display)

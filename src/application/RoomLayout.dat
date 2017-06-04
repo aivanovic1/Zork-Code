@@ -1,3 +1,9 @@
+#
+# This is the Zork game definition file
+#
+# Author: Andrei Ivanovic (2017)
+#
+#
 
 $Map:
 
@@ -65,10 +71,12 @@ $Room: @ - East Forward Airlock
 $Room: $ - Captain's Quarters
 $Room: * - Bridge
 
+$EndingRoom: *
+
 # PlayerInfo: Health, Capacity
 # PlayerItem: Item (same as inventory declarations below)
 
-$PlayerInfo: 100, 25
+$PlayerInfo: 100, 30, images/Freelance Operator 357.jpg
 
 $PlayerItem: Weapon, ST-1 Pistol, 3, 3, 40, 6, 1
 $PlayerItem: MeleeWeapon, Weaver Knife, 2, 2
@@ -91,6 +99,7 @@ $Inventory D: MeleeWeapon, Wrench, 2, 2
 $Inventory H: MeleeWeapon, Screwdriver, 2, 2
 $Inventory F: Medicine, Painkillers, 0, 3, 5
 $Inventory F: MeleeWeapon, Multipurpose Knife, 2, 3
+$Inventory F: Keys, BioScan Insert, 0, S
 $Inventory M: Weapon, MK-1 Assault Rifle, 7, 20, 60, 60, 3
 $Inventory M: Weapon, MK-1 Shotgun, 5, 10, 20, 30, 5
 $Inventory M: Grenade, Sleep Powder, 1, Sleep, 0
@@ -103,6 +112,7 @@ $Inventory K: Weapon, MK-1 Shotgun, 5, 10, 20, 30, 5
 $Inventory K: Weapon, ST-2 Pistol, 3, 5, 45, 8, 1
 $Inventory K: Armour, Crew Chestplate, 4, 40, 5
 $Inventory K: Armour, Crew Helmet, 2, 20, 3
+$Inventory Q: Keys, HoloCard Reader Chip, 0, S
 $Inventory N: Armour, Guard Helmet, 2, 25, 4
 $Inventory N: MeleeWeapon, Guard Knife, 2, 3
 $Inventory N: Weapon, MK-2 Assault Rifle, 7, 25, 65, 65, 3
@@ -112,6 +122,7 @@ $Inventory R: Medicine, Injected Stimulant, 0, 1, 20
 $Inventory R: MeleeWeapon, Scalpel, 1, 2
 $Inventory R: MeleeWeapon, Bone Saw, 2, 3
 $Inventory R: MeleeWeapon, Surgical Drill, 3, 4
+$Inventory R: Keys, Retina Scan Implant, 0, S
 $Inventory T: Weapon, CL-A Assault Rifle MOD 1, 7, 35, 65, 65, 3
 $Inventory T: Weapon, CL-A Assault Rifle MOD 2, 7, 25, 70, 75, 3
 $Inventory T: Weapon, CL-A Assault Rifle MOD 3, 7, 30, 70, 65, 3
@@ -126,7 +137,7 @@ $Inventory T: Item, Cigarette, 0
 $Inventory T: Item, Cigarette, 0
 $Inventory T: Item, Risque Magazine, 0
 $Inventory O: Weapon, ST-3 Pistol, 3, 7, 45, 10, 2
-$Inventory O: Keys, Key Card, 0, L
+$Inventory O: Keys, Key Card, 0, U
 $Inventory O: Armour, Crew Helmet, 2, 20, 3
 $Inventory O: Medicine, Painkillers, 0, 1, 5
 $Inventory #: Item, Widget Spinner, 1
@@ -172,14 +183,51 @@ $Character R: Doctor, 40, 3, 100, 0
 $Character R: Surgeon, 40, 4, 100, 0
 $Character O: Rogue Crew Member, 45, 7, 45, 20
 $Character X: Armoured Mercenary, 70, 10, 25, 45
-$Character X: Armoured Mercenary, 70, 12, 20, 60
-$Character Y: Black Arms Trader, 70, 35, 70, 30
-$Character Y: Black Arms Trader, 70, 30, 75, 50
-$Character W: Rogue Guard, 80, 8, 35, 10
-$Character W: Rogue Guard, 80, 8, 35, 10
+$Character X: Armoured Mercenary, 70, 12, 20, 40
+$Character Y: Black Arms Trader, 70, 25, 70, 30
+$Character Y: Black Arms Trader, 70, 20, 75, 40
+$Character W: Rogue Guard, 80, 8, 25, 10
+$Character W: Rogue Guard, 80, 8, 25, 10
 $Character Z: Black Arms Trader, 80, 15, 25, 10
 $Character Z: Sergeant Autumn, 100, 10, 50, 50
 $Character *: Captain Valkorion, 120, 15, 60, 50
+
+$Image A: images/A.jpg
+$Image F: images/F.jpg
+$Image *: images/Final.jpg
+$Image I: images/I.jpg
+$Image J: images/J.jpg
+$Image K: images/K.jpg
+$Image N: images/N.jpg
+$Image O: images/O.jpg
+$Image P: images/P.jpg
+$Image R: images/R.jpeg
+$Image T: images/T.jpg
+$Image U: images/U.jpg
+$Image W: images/W.jpg
+$Image X: images/X.jpg
+$Image Y: images/Y.jpg
+$Image Z: images/Z.jpg
+
+$ImageCombat K: images/Rogue Crew Member.jpg
+$ImageCombat N: images/CombatGuard.jpg
+$ImageCombat R: images/Crew Member.jpg
+$ImageCombat O: images/Rogue Crew Member.jpg
+$ImageCombat X: images/Armoured Trader.jpg
+$ImageCombat Y: images/Armoured Trader.jpg
+$ImageCombat W: images/CombatGuard.jpg
+$ImageCombat Z: images/Sergeant Autumn.jpg
+$ImageCombat *: images/Captain.jpg
+
+$CombatSound K: sounds/CombatMusic.wav
+$CombatSound N: sounds/CombatMusic.wav
+$CombatSound R: sounds/CombatMusic.wav
+$CombatSound O: sounds/CombatMusic.wav
+$CombatSound X: sounds/CombatMusic.wav
+$CombatSound Y: sounds/CombatMusic.wav
+$CombatSound W: sounds/CombatMusic.wav
+$CombatSound Z: sounds/CombatMusic.wav
+$CombatSound *: sounds/CombatMusic.wav
 
 #
 # Inspect definitions; Inspect responses at the end of the file
@@ -196,10 +244,8 @@ $Inspect $: Tablet
 # Lock assignment
 # Going from room X to room Y, describe as #LockFrom L to U
 
-$LockFrom L to U
-$LockFrom N to S
-
-#ADD THREE KEY FRAGMENTS TO UNLOCK ARMOURY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+$LockFrom L to U, Keys: 1
+$LockFrom N to S, Keys: 3
 
 #
 # Story, Descriptions, Messages
@@ -334,7 +380,7 @@ ANG3L: If you’re hungry you could prepare yourself a meal in the kitchen. Thes
 $Story K:
 You walk into the large cafeteria. The lights flicker as you hear a faint conversation. You can see them, but they can’t see you. You take cover behind one of the tables and clutch your weapon.
 
-ANG3L: Peak over so I can get a reading. They’re wearing crew uniforms, ask them if they know what happened to the cargo.
+ANG3L: Peek over so I can get a reading. They’re wearing crew uniforms, ask them if they know what happened to the cargo.
 
 You start to walk down the main aisle of the cafeteria.
 
@@ -744,7 +790,7 @@ JOURNAL ENTRY 355: Tests from DAY 354 proved conclusive, I will tell the Captain
 
 JOURNAL ENTRY 356: Pods 28-35 have not met their nutrient supply requirements, the scientists in charge of that are missing. I have thought about contacting the Captain, but he
 
-JOURNAL ENTRY 357: Mass power outage among the ship, all experiments ruin. It seems that I am the last remaining scientist and that there is something or someone killing off my fellow team. I need to lay low, this will be my last entry for a while.
+JOURNAL ENTRY 357: Mass power outage among the ship, all experiments ruined. It seems that I am the last remaining scientist and that there is something or someone killing off my fellow team. I need to lay low, this will be my last entry for a while.
 
 $InspectResponse I:
 You power on the tablet and notice the logs that show up on the screen:
